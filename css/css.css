@@ -1,0 +1,208 @@
+@charset "UTF-8";
+::-webkit-scrollbar {
+ width: 0px
+}
+::selection {
+	background: transparent;
+	color: goldenrod;
+}
+.bgmask ::selection {
+	background: transparent;
+	color: #fff;
+}
+*, *:before, *:after {
+	-moz-box-sizing: border-box; /*Firefox3.5+*/
+	-webkit-box-sizing: border-box; /*Safari3.2+*/
+	-o-box-sizing: border-box; /*Opera9.6*/
+	-ms-box-sizing: border-box; /*IE8*/
+	box-sizing: border-box; /*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+)*/
+	-ms-overflow-style: none; /*IE10+滚动条隐藏*/
+}
+*:focus {
+	outline: none;
+}
+a{text-decoration:none;transition: all .3s;}
+a:hover{
+	color: #ff0000;
+	transition: all .3s;
+}
+body.isHtml5Plus *:focus {
+	outline2: goldenrod dotted thin;
+}
+.poster, .popmask, .lazyload, #content img, iframe, canvas, .grayscale, .date .layer:before, .date .post > a {
+	-webkit-transform: translate3d(0, 0, 0);
+	-moz-transform: translate3d(0, 0, 0);
+	-ms-transform: translate3d(0, 0, 0);
+	-o-transform: translate3d(0, 0, 0);
+	transform: translate3d(0, 0, 0);
+	-webkit-backface-visibility: hidden;
+	-webkit-perspective: 0;
+}
+html, body {
+	width: 100%;
+	height: auto;
+	min-height: 100%;
+	-webkit-overflow-scrolling: touch;
+	margin: 0;
+	padding: 0;
+	color: #000;
+	line-height: 1.5;
+	font-family: "Hiragino Sans GB", "Hiragino Sans GB W3", "Microsoft YaHei", "WenQuanYi Micro Hei", Verdana, Geneva, "iconfont", sans-serif;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+body * {
+	word-break: break-all;
+}
+body.loading:after, .popIframe.loading:after {
+	content: "";
+	text-align: center;
+	position: fixed;
+	z-index: 1;
+	opacity: 1;
+	display: block;
+	left: 50%;
+	top: 50%;
+	width: 48px;
+	height: 48px;
+	line-height: 48px;
+	margin-left: -26px;
+	margin-top: -26px;
+	border-radius: 50%;
+	transition-duration: 0.5s;
+	color: goldenrod;
+	border: 2px dashed;
+	background-size: 50%;
+	opacity: 1;
+	animation: rotate360 4s linear infinite;
+	-webkit-animation: rotate360 4s linear infinite;
+	display: none\9!important;/*ie678*/
+}
+input {
+    position: relative;
+    font-size: 1em;
+    line-height: 28px;
+    height: 28px;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-bottom: 1px dashed;
+    background: none;
+    border-radius: 0;
+    overflow: visible;
+    outline: none;
+    vertical-align: middle;
+}
+/*左边盒子容器*/
+.box-left {
+	position: fixed;
+	z-index: 9;
+	top: 0;
+	left: 0;
+	float: left;
+	width: 20%;
+	padding: 0;
+	height: 100%;
+	overflow-x: visible;
+	overflow-y: auto;
+	background-size: 100% auto;
+}
+.box-left .header .name{
+	font-size: 40px;
+	color: #ff0000;
+	text-align: center;
+	margin-top: 3.75rem;
+	display: block;
+}
+.box-left .header .name .name-color{
+	color: #000;
+	transition: all .3s;
+}
+.box-left .header .name:hover .name-color{
+	color: #ff0000;
+	transition: all .3s;
+}
+.box-left .top-nav{
+	list-style: none;
+	text-align: center;
+	padding: 0;
+	font-size: 1.8rem;
+}
+.box-left .top-nav a{
+	color: #000;
+}
+.box-left .top-nav
+.box-left .top-nav a:hover{
+	color: #ff0000;
+}
+.box-left .leftsearch{
+	width: 62%;
+	margin: 0 auto;
+}
+.box-left .leftsearch input{
+	border-bottom: 1px #000 solid;
+}
+
+.left-state-button{
+    width: 48px;
+    height: 48px;
+    line-height: 48px;
+    border-radius: 50%;
+    position: fixed;
+    z-index: 10;
+    left: 20%;
+    bottom: 50%;
+    margin-left: -24px;
+    margin-bottom: -24px;
+    font-size: 44px;
+    text-align: center;
+    color: #ff0000;
+    background-size: cover;
+    cursor: pointer;
+    -webkit-touch-callout: none;
+    transition-duration: 0s!important;
+    bottom: 50% !important;
+}
+.left-state-button .icon-left{
+	font-size: 40px;
+}
+.left-state-button .icon-left:before {
+    content: "\e6cb";
+}
+/*右边盒子容器*/
+.box-right {
+    position: relative;
+    top: 0;
+    left: 20%;
+    margin: 0;
+    padding-top: 0 !important;
+    overflow-x: hidden;
+    width: 80%;
+    padding: 0 2%;
+    padding-bottom: 2%;
+}
+/*关闭左边*/
+.left-close .box-right{
+	width: 100%;
+	left: 0;
+}
+.left-close .box-left{
+	left: -20%;
+}
+.left-close .left-state-button{
+	left: 0
+}
+.left-close .left-state-button .icon-left:before {
+    content: "\e610";
+}
+
+
+/*响应式 768px*/
+@media screen and (max-width: 768px){
+	.box-left,.left-state-button{
+		display: none;
+	}
+	.box-right{
+		width: 100%;
+		left: 0;
+	}
+}
