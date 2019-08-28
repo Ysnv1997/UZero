@@ -3,35 +3,80 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
-	<link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_1372667_q81tnmlpw6.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_1372667_7zvxuuntgll.css">
 	<link rel="stylesheet" type="text/css" href="css/css.css">
 	<script src="https://cdn.bootcss.com/jquery/2.1.2/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<script src="js/main.js"></script>
 </head>
 <body>
 	<!-- 左导航 -->
 	<div class="box-left">
-		<header class="header">
-			<a href="" class="name logo"><span class="name-color">山然</span>博客</a>
-		</header>
-		<ul class="top-nav">
-			<li><a href="">分类</a></li>
-			<li><a href="">分类</a></li>
-		</ul>
-		<div class="leftsearch">
-			<form>	
-				<input type="input" name="s" placeholder="搜索">
-				<input type="submit" id="submit">
-			
-			</form>
+		<div class="left-logo">
+			<a href=""><span>山然</span>博客</a>
 		</div>
+		<div class="navtager">
+			<ul>
+				<li><a href="">首页</a></li>
+				<li>
+					<a href="">奇巧淫技</a>
+					<span class="menu-icon">
+						<i class="iconfont icon-xia"></i>
+					</span>
+					<ul class="menu-close">
+						<li><a href="">首页</a></li>
+						<li><a href="">首页</a></li>
+						<li><a href="">首页</a></li>
+						<li><a href="">首页</a></li>
+					</ul>
+				</li>
+				<li><a href="">生活日常</a></li>
+			</ul>
+		</div>
+		<div class="contact">
+			<ul>
+				<li><a href=""><i class="iconfont icon-qq"></i></a></li>
+				<li>
+					<a href="javascript:" data-img="https://www.aiqizhi.com/api/qr/?m=0&e=L&p=5&url=http://www.ishanran.com/" data-title="扫一扫添加站长微信" data-desc="suxingme" class="pr-2 text-light single-popup">
+						<i class="iconfont icon-weixin"></i></a>
+				</li>
+				<li><a href=""><i class="iconfont icon-github"></i></a></li>
+				<li><a href="javascript:;"><i class="iconfont icon-search"></i></a></li>
+			</ul>
+		</div>
+	
 	</div>
 	<div class="left-state-button">
-		<i class="iconfont icon-left"></i>
+		<i class="iconfont icon-Left"></i>
 	</div>
 	<!-- 右内容box -->
 	<div class="box-right">
+
 	</div>
+
+
+<div class="site-search-popup show-popup">
+    <div class="search-popup-close">
+        <div class="container">
+            <div class="popup-close-btn">
+                <i class="text-xl iconfont icon-guanbi"></i>
+            </div>
+        </div>
+    </div>
+    <div class="site-search-body">
+        <div class="container">
+            <form method="get" role="search" class="form-search form-horizontal" action="">
+              <div class="input-group">
+				  <input type="text" class="form-control" placeholder="搜索内容" aria-describedby="basic-addon2">
+				  <div class="input-group-addon">
+						<button type="submit" class="btn btn-light"><i class="iconfont icon-search"></i></button>
+				  </div>
+				</div>
+            </form>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
