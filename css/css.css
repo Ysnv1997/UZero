@@ -36,7 +36,7 @@
 }
 
 a {
-    text-decoration: none;
+    text-decoration: none !important;
     transition: all .3s;
     color: #000;
 }
@@ -121,7 +121,6 @@ input {
     margin: 0;
     padding: 0;
     border: none;
-    border-bottom: 1px dashed;
     background: none;
     border-radius: 0;
     overflow: visible;
@@ -168,14 +167,10 @@ ul {
     padding: 0 2.25rem;
 }
 
-.box-left .navtager>ul {
-    border-bottom: 1px solid #404b69 !important;
-}
-
 .box-left .navtager ul {
     color: #7a8b9a;
     font-size: 14px;
-    padding-bottom: 2rem;
+    padding-bottom: 0rem;
 
 }
 
@@ -208,7 +203,10 @@ ul {
 }
 
 .box-left .contact {
-    padding: 1.75rem 2.25rem;
+    padding: 0 2.25rem;
+    padding-top: 5rem;
+    margin-top: 6rem;
+    border-top: 1px solid #404b69 !important;
 
 }
 
@@ -275,7 +273,28 @@ ul {
     padding: 0 2%;
     padding-bottom: 2%;
 }
-
+/*导航栏关闭的时候显示主页信息*/
+.right-index{
+    margin-top: 36px;
+    width: 100%;
+    position: relative;
+}
+.right-index-nav,
+.right-index-logo {
+    text-align: center;
+}
+.right-index-logo i{
+    font-size: 15rem;
+}
+.right-index-nav{
+    color: #000;
+    margin-top: 3rem;
+    font-size: 1.75rem;
+}
+.right-index-nav li {
+    display: inline-block;
+    padding: 1rem 1.5rem;
+}
 /*关闭左边*/
 .left-close .box-right {
     width: 100%;
@@ -296,31 +315,35 @@ ul {
 /*搜索*/
 .input-group-addon{
     padding: 0;
+    border: 0px;
+    height: 3.875rem;
+    background-color: rgba(0,0,0,0);
 }
 .site-search-body .input-group input{
-    height: calc(2.875rem + 2px);
-        padding: .5rem 1rem;
-            color: #8a92a9;
+    height: 3.875rem;
+    padding: .5rem 1rem;
+    color: #8a92a9;
     border-color: #f0f3f8;
     border-radius: 0.166rem;
     background-color: #f0f3f8;
         -webkit-appearance: none;
     outline: none !important;
     box-shadow: none !important;
+    border:0px;
 }
 .site-search-body .input-group button{
-        height: calc(2.875rem + 2px);
-    padding: 0;
+    height: 3.875rem;
+    padding: 0rem 1.65rem;
     margin: 0;
-    border-top-left-radius: 0.166rem;
-    border-bottom-left-radius: 0.166rem;
     font-size: 1rem;
-    line-height: 1.5;
     position: relative;
     z-index: 2;
     color: #8a92a9;
     background-color: #f4f5f9;
     border-color: #f4f5f9;
+    border: 0px !important;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
 }
 /*--------------------------------------------------------------
     top search style
@@ -345,8 +368,11 @@ ul {
     visibility: visible;
     opacity: 1;
     transform: translateY(0);
+    display: none;
 }
-
+.show-popup-close{
+    display: block !important;
+}
 .site-search-body {
     position: absolute;
     display: -ms-flexbox;
@@ -376,6 +402,7 @@ ul {
     display: inline-block;
     cursor: pointer;
     line-height: 1;
+    padding: 1rem;
 }
 
 .popup-close-btn i {

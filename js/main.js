@@ -3,13 +3,20 @@ jQuery(document).ready(function($) {
 	// 左边容器切换
 	$('.left-state-button').on('click',function(){
 		body.toggleClass('left-close');
-	})
+	});
 	// 二级导航栏切换
 	$('.menu-icon').on('click',function(){
 		var menuTwo = $(this).next();
 		menuTwo.slideToggle(300)
+	});
+	// 搜索框切换
+	$('.popup-close-btn').on('click',function(){
+		$('.site-search-popup.show-popup').toggleClass('show-popup-close')
 	})
-
+	$('.icon-search').on('click',function(){
+		$('.site-search-popup.show-popup').toggleClass('show-popup-close')
+	})
+	// 提示框调用
 	$(document).on('click', '.single-popup', function(event) {
 		event.preventDefault();
 		var img = $(this).data("img");
@@ -18,7 +25,7 @@ jQuery(document).ready(function($) {
 		var html = '<div class="text-center"><h6>' + title + '</h6>\
 						<p class="mt-1 mb-2">'+ desc +'</p>\
 						<img src="' + img + '" alt="' + title + '">\
-					</div>'
+					</div>';
 		ncPopup('small', html)
 	});
 
