@@ -26,7 +26,7 @@ define( 'CS_ACTIVE_CUSTOMIZE', false ); // default true
 add_action( 'wp_enqueue_scripts', 'SuStatic' );
 function SuStatic() {
 
-    wp_register_script( 'jquery', get_template_directory_uri() . '/js/jquery.min.js', array(), true );
+    wp_register_script( 'jquery1', get_template_directory_uri() . '/js/jquery.min.js', array(), true );
     wp_register_script( 'bootstrap', get_template_directory_uri() . '/js/bootstrap.min.js', array(), true );
     wp_register_script( 'swiper', get_template_directory_uri() . '/js/swiper.min.js', array(), true );
     wp_register_script( 'lazyload', get_template_directory_uri() . '/js/jquery.lazyload.min.js', array(), true );
@@ -39,7 +39,7 @@ function SuStatic() {
         wp_enqueue_style( 'bootstrap' );
         wp_enqueue_style( 'style' );
 
-        wp_enqueue_script( 'jquery' );
+        wp_enqueue_script( 'jquery1' );
         wp_enqueue_script( 'bootstrap' );
         wp_enqueue_script( 'swiper' );
         wp_enqueue_script( 'lazyload' );
@@ -52,7 +52,9 @@ function SuStatic() {
 
     wp_localize_script( 'main', 'stayma_url',
         array(
-            "url_ajax" => admin_url("admin-ajax.php")
+            'ajax_url'   => admin_url('admin-ajax.php'),
+            'order' => get_option('comment_order'),
+            'formpostion' => 'bottom', //默认为bottom，如果你的表单在顶部则设置为top。
         )
     );
 }

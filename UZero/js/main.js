@@ -93,56 +93,79 @@ jQuery(document).ready(function($) {
     // ajax评论
 	commentAjax()
     function commentAjax() {
-        var $commentform = $('#commentform'),
-            $comments = $('#comments-title'),
-            $cancel = $('#cancel-comment-reply-link'),
-            cancel_text = "取消回复";
-        $('.comment-from-textarea').append('<div id="comment_message" style="display:none;"></div>');
-        $('#commentform').on("submit", function(e) {
-            $('#comment_message').slideDown().html("<p>评论提交中....</p>");
-            $('#submit').addClass("disabled").val("发表评论").attr("disabled", "disabled");
-            $.ajax({
-                url: stayma_url.url_ajax,
-                data: $(this).serialize() + "&action=ajax_comment",
-                type: $(this).attr('method'),
-                error: function(request) {
-                    $('#comment_message').addClass('comt-error').html(request.responseText);
-                    setTimeout("$('#submit').removeClass('disabled').val('发表评论').attr('disabled',false)", 2000);
-                    setTimeout("$('#comment_message').slideUp()", 2000);
-                    setTimeout("$('#comment_message').removeClass('comt-error')", 3000);
-                },
-                success: function(data) {
-                    $('textarea').each(function() {
-                        this.value = ''
-                    });
-                    var t = addComment,
-                        cancel = t.I('cancel-comment-reply-link'),
-                        temp = t.I('wp-temp-form-div'),
-                        respond = t.I(t.respondId),
-                        post = t.I('comment_post_ID').value,
-                        parent = t.I('comment_parent').value;
-                    if (parent != '0') {
-                        $('#respond').before('<ul class="children">' + data + '</ul>');
-                    } else if ($('.commentlist').length != '0') {
-                        $('.commentlist').append(data);
-                    } else {
-                        $('.commentlist').append(data);
-                    }
-                    // $('#comment_message').html("<p>评论提交成功</p>");
-                    site_tips(1, "评论成功")
-                    setTimeout("$('#submit').removeClass('disabled').val('发表评论').attr('disabled',false)", 2000);
-                    setTimeout("$('#comment_message').slideUp()", 1000);
-                    cancel.style.display = 'none';
-                    cancel.onclick = null;
-                    t.I('comment_parent').value = '0';
-                    if (temp && respond) {
-                        temp.parentNode.insertBefore(respond, temp);
-                        temp.parentNode.removeChild(temp)
-                    }
-                }
-            });
-            return false;
-        });
+
+jQuery(document).ready(function(jQuery) {
+	var __cancel = jQuery('#cancel-comment-reply-link'),
+		__cancel_text = __cancel.text(),
+		__list = 'comment-list';//your comment wrapprer
+	jQuery(document).on("submit", "#commentform", function() {
+		jQuery.ajax({
+			url: stayma_url.ajax_url,
+			data: jQuery(this).serialize() + "&action=ajax_comment",
+			type: jQuery(this).attr('method'),
+			beforeSend: faAjax.createButterbar("提交中...."),
+			error: function(request) {
+				var t = faAjax;
+				t.createButterbar(request.responseText);
+			},
+			success: function(data) {
+				jQuery('textarea').each(function() {
+					this.value = ''
+				});
+				var t = faAjax,
+					cancel = t.I('cancel-comment-reply-link'),
+					temp = t.I('wp-temp-form-div'),
+					respond = t.I(t.respondId),
+					post = t.I('comment_post_ID').value,
+					parent = t.I('comment_parent').value;
+				if (parent != '0') {
+					jQuery('#respond').before('<ol class="children">' + data + '</ol>');
+				} else if (!jQuery('.' + __list ).length) {
+					if (stayma_url.formpostion == 'bottom') {
+						jQuery('#respond').before('<ol class="' + __list + '">' + data + '</ol>');
+					} else {
+						jQuery('#respond').after('<ol class="' + __list + '">' + data + '</ol>');
+					}
+
+				} else {
+					if (ajaxcomment.order == 'asc') {
+						jQuery('.' + __list ).append(data); // your comments wrapper
+					} else {
+						jQuery('.' + __list ).prepend(data); // your comments wrapper
+					}
+				}
+				t.createButterbar("提交成功");
+				cancel.style.display = 'none';
+				cancel.onclick = null;
+				t.I('comment_parent').value = '0';
+				if (temp && respond) {
+					temp.parentNode.insertBefore(respond, temp);
+					temp.parentNode.removeChild(temp)
+				}
+			}
+		});
+		return false;
+	});
+	faAjax = {
+		I: function(e) {
+			return document.getElementById(e);
+		},
+		clearButterbar: function(e) {
+			if (jQuery(".butterBar").length > 0) {
+				jQuery(".butterBar").remove();
+			}
+		},
+		createButterbar: function(message) {
+			var t = this;
+			t.clearButterbar();
+			jQuery("#commentform").append('<div class="butterBar butterBar--center"><p class="butterBar-message">' + message + '</p></div>');
+			setTimeout("jQuery('.butterBar').remove()", 3000);
+		}
+	};
+});
+
+
+
     }
 
 
