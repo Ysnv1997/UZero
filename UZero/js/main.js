@@ -5,11 +5,21 @@ jQuery(document).ready(function($) {
 		body.toggleClass('left-close');
 		return false;
 	});
+	// 图片懒加载注册
+	$("img.lazy").lazyload({
+		effect: "fadeIn",
+		 placeholder : "https://ftp.bmp.ovh/imgs/2019/08/2699faee29464b6a.gif",
+
+	});
 	// 二级导航栏切换
+	if($('.navtager ul>li:has(ul)')){
+		$('.navtager ul>li:has(ul)').append('<span class="menu-icon"><i class="iconfont icon-xia"></i></span>')
+	}
 	$('.menu-icon').on('click',function(){
-		var menuTwo = $(this).next();
+		var menuTwo = $(this).prev();
 		menuTwo.slideToggle(300)
 	});
+
 	// 搜索框切换
 	$('.popup-close-btn').on('click',function(){
 		$('.site-search-popup.show-popup').toggleClass('show-popup-close')
@@ -41,7 +51,7 @@ jQuery(document).ready(function($) {
 	  }) 
 
 	// 劫持所有链接，站内iframe打开
-	$('a[href!="javascript:;"][href!=""]').on('click',function(){
+	$('a[href!="javascript:;"][href!=""][target!="_blank"][rel!="nofollow"]').on('click',function(){
 		var href = $(this).attr('href');
 		$('#popIframe').append('<iframe frameborder="0" allowfullscreen="true" allowtransparency="true" src="'+href+'"></iframe>')
 		$('.popIframe').show();
@@ -62,10 +72,82 @@ jQuery(document).ready(function($) {
 		}
 
 	} catch(err){}
+	// 首页每日一句骚话---探探api
+	// 感谢@淮城一只猫 提供骚话api
+	function dayTTtxt(){
+		var TTtxt = $('#day-txt');
+		$.ajax({
+			url: "https://bird.ioliu.cn/v2?url=https://my-tantan.tantanapp.com/api/daily_report?limit=1&headers={'H5-Authorization':'hV6iDl4WZHyeP8zQyXSRgDosPKnZodFgWuk2Ugr991ib1Lug00qxpLmQbbkNEx2m6l4e1xfefr0Etrw4jVp_wbJf9fdgLGYbl9JetrqukkgDIuQVbwtWRS2iuzt2775xODkEaijDWAaTVKGKpNKBYpXlAYZ3Lykp4FC68UpE3sQ0ZYbqjbV3JDz4rEuWhVLSSRgx0QA8WSQ'}",
+			type: 'GET',
+			dataType: 'json'
+		})
+		.done(function(data) {
+			TTtxt.text(data.data.reports[0].quote)
+		})
+		.fail(function(error) {
+			TTtxt.text(error)
+		})
+	}
+	dayTTtxt();
 
+    // ajax评论
+	commentAjax()
+    function commentAjax() {
+        var $commentform = $('#commentform'),
+            $comments = $('#comments-title'),
+            $cancel = $('#cancel-comment-reply-link'),
+            cancel_text = "取消回复";
+        $('.comment-from-textarea').append('<div id="comment_message" style="display:none;"></div>');
+        $('#commentform').on("submit", function(e) {
+            $('#comment_message').slideDown().html("<p>评论提交中....</p>");
+            $('#submit').addClass("disabled").val("发表评论").attr("disabled", "disabled");
+            $.ajax({
+                url: stayma_url.url_ajax,
+                data: $(this).serialize() + "&action=ajax_comment",
+                type: $(this).attr('method'),
+                error: function(request) {
+                    $('#comment_message').addClass('comt-error').html(request.responseText);
+                    setTimeout("$('#submit').removeClass('disabled').val('发表评论').attr('disabled',false)", 2000);
+                    setTimeout("$('#comment_message').slideUp()", 2000);
+                    setTimeout("$('#comment_message').removeClass('comt-error')", 3000);
+                },
+                success: function(data) {
+                    $('textarea').each(function() {
+                        this.value = ''
+                    });
+                    var t = addComment,
+                        cancel = t.I('cancel-comment-reply-link'),
+                        temp = t.I('wp-temp-form-div'),
+                        respond = t.I(t.respondId),
+                        post = t.I('comment_post_ID').value,
+                        parent = t.I('comment_parent').value;
+                    if (parent != '0') {
+                        $('#respond').before('<ul class="children">' + data + '</ul>');
+                    } else if ($('.commentlist').length != '0') {
+                        $('.commentlist').append(data);
+                    } else {
+                        $('.commentlist').append(data);
+                    }
+                    // $('#comment_message').html("<p>评论提交成功</p>");
+                    site_tips(1, "评论成功")
+                    setTimeout("$('#submit').removeClass('disabled').val('发表评论').attr('disabled',false)", 2000);
+                    setTimeout("$('#comment_message').slideUp()", 1000);
+                    cancel.style.display = 'none';
+                    cancel.onclick = null;
+                    t.I('comment_parent').value = '0';
+                    if (temp && respond) {
+                        temp.parentNode.insertBefore(respond, temp);
+                        temp.parentNode.removeChild(temp)
+                    }
+                }
+            });
+            return false;
+        });
+    }
 
 
 });
+
 // 提示弹窗
 if (typeof jQuery != 'undefined') {
 	var $ = jQuery.noConflict();
