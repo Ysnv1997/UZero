@@ -21,10 +21,10 @@
     </div>
     <!-- 站内链接跳转弹窗 -->
     <div class="popIframe" id="popIframe">
-        
-        <a class="closemask" id="closemask"></a>
+        <a href="" class="closemask" id="closemask"></a>
     </div>
     <?php wp_footer();?>
+
 </body>
 
 </html>

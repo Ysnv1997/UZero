@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Document</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_1372667_qcp3xgtu8t.css">
+    <link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_1372667_f0yzpjpgc4d.css">
 
 <?php wp_head(); ?>
 </head>
@@ -14,7 +14,7 @@
     <!-- 左导航 -->
     <div class="box-left">
         <div class="left-logo">
-            <a href=""><?php bloginfo('name'); ?></a>
+            <a href="<?php bloginfo('url'); ?>"><?php bloginfo('name'); ?></a>
         </div>
         <div class="navtager">
             <?php 
@@ -44,7 +44,7 @@
                 <li><a href="javascript:;"><i class="iconfont icon-search"></i></a></li>
             </ul>
         </div>
-    </div>
+    </div><!-- 
     <div class="left-state-button">
         <i class="iconfont icon-Left"></i>
-    </div>
+    </div> -->

@@ -51,8 +51,10 @@ jQuery(document).ready(function($) {
 	  }) 
 
 	// 劫持所有链接，站内iframe打开
-	$('a[href!="javascript:;"][href!=""][target!="_blank"][rel!="nofollow"]').on('click',function(){
+	$('a[href!=""][target!="_blank"][rel!="nofollow"]').on('click',function(){
 		var href = $(this).attr('href');
+		if (href.indexOf('javascript')== 0) {return}
+		if ($(window).width()<=1200) {return}
 		$('#popIframe').append('<iframe frameborder="0" allowfullscreen="true" allowtransparency="true" src="'+href+'"></iframe>')
 		$('.popIframe').show();
 		$('.left-state-button').hide()
@@ -74,98 +76,101 @@ jQuery(document).ready(function($) {
 	} catch(err){}
 	// 首页每日一句骚话---探探api
 	// 感谢@淮城一只猫 提供骚话api
-	function dayTTtxt(){
-		var TTtxt = $('#day-txt');
+	function oneDayTTtxt(date){
 		$.ajax({
-			url: "https://bird.ioliu.cn/v2?url=https://my-tantan.tantanapp.com/api/daily_report?limit=1&headers={'H5-Authorization':'hV6iDl4WZHyeP8zQyXSRgDosPKnZodFgWuk2Ugr991ib1Lug00qxpLmQbbkNEx2m6l4e1xfefr0Etrw4jVp_wbJf9fdgLGYbl9JetrqukkgDIuQVbwtWRS2iuzt2775xODkEaijDWAaTVKGKpNKBYpXlAYZ3Lykp4FC68UpE3sQ0ZYbqjbV3JDz4rEuWhVLSSRgx0QA8WSQ'}",
+			url: "https://bird.ioliu.cn/v2?url=https://my-tantan.tantanapp.com/api/daily_report?limit=1&until=" + date + "&headers={'H5-Authorization':'hV6iDl4WZHyeP8zQyXSRgDosPKnZodFgWuk2Ugr991ib1Lug00qxpLmQbbkNEx2m6l4e1xfefr0Etrw4jVp_wbJf9fdgLGYbl9JetrqukkgDIuQVbwtWRS2iuzt2775xODkEaijDWAaTVKGKpNKBYpXlAYZ3Lykp4FC68UpE3sQ0ZYbqjbV3JDz4rEuWhVLSSRgx0QA8WSQ'}",
 			type: 'GET',
-			dataType: 'json'
+			dataType: 'json',
+			success:function(data){
+				$('#day-txt').text(data.data.reports[0].quote)
+			}
 		})
-		.done(function(data) {
-			TTtxt.text(data.data.reports[0].quote)
-		})
-		.fail(function(error) {
-			TTtxt.text(error)
-		})
+		
 	}
-	dayTTtxt();
+	var theDate = dayjs().format('YYYY-MM-DD');
+	oneDayTTtxt(theDate)
+	// 浮动提示层
+	$(function () {
+	  $('[data-toggle="tooltip"]').tooltip()
+	})
+	// 侧边栏右侧开关
+	$('.artlist').on('click',function(){
+		$('.blog-pucll-box').slideToggle(300)
+	})
 
     // ajax评论
 	commentAjax()
     function commentAjax() {
 
-jQuery(document).ready(function(jQuery) {
-	var __cancel = jQuery('#cancel-comment-reply-link'),
-		__cancel_text = __cancel.text(),
-		__list = 'comment-list';//your comment wrapprer
-	jQuery(document).on("submit", "#commentform", function() {
-		jQuery.ajax({
-			url: stayma_url.ajax_url,
-			data: jQuery(this).serialize() + "&action=ajax_comment",
-			type: jQuery(this).attr('method'),
-			beforeSend: faAjax.createButterbar("提交中...."),
-			error: function(request) {
-				var t = faAjax;
-				t.createButterbar(request.responseText);
-			},
-			success: function(data) {
-				jQuery('textarea').each(function() {
-					this.value = ''
+			jQuery(document).ready(function(jQuery) {
+				var __cancel = jQuery('#cancel-comment-reply-link'),
+					__cancel_text = __cancel.text(),
+					__list = 'comment-list';//your comment wrapprer
+				jQuery(document).on("submit", "#commentform", function() {
+					jQuery.ajax({
+						url: stayma_url.ajax_url,
+						data: jQuery(this).serialize() + "&action=ajax_comment",
+						type: jQuery(this).attr('method'),
+						beforeSend: faAjax.createButterbar("提交中...."),
+						error: function(request) {
+							var t = faAjax;
+							t.createButterbar(request.responseText);
+						},
+						success: function(data) {
+							jQuery('textarea').each(function() {
+								this.value = ''
+							});
+							var t = faAjax,
+								cancel = t.I('cancel-comment-reply-link'),
+								temp = t.I('wp-temp-form-div'),
+								respond = t.I(t.respondId),
+								post = t.I('comment_post_ID').value,
+								parent = t.I('comment_parent').value;
+							if (parent != '0') {
+								jQuery('#respond').before('<ol class="children">' + data + '</ol>');
+							} else if (!jQuery('.' + __list ).length) {
+								if (stayma_url.formpostion == 'bottom') {
+									jQuery('#respond').before('<ol class="' + __list + '">' + data + '</ol>');
+								} else {
+									jQuery('#respond').after('<ol class="' + __list + '">' + data + '</ol>');
+								}
+
+							} else {
+								if (ajaxcomment.order == 'asc') {
+									jQuery('.' + __list ).append(data); // your comments wrapper
+								} else {
+									jQuery('.' + __list ).prepend(data); // your comments wrapper
+								}
+							}
+							t.createButterbar("提交成功");
+							cancel.style.display = 'none';
+							cancel.onclick = null;
+							t.I('comment_parent').value = '0';
+							if (temp && respond) {
+								temp.parentNode.insertBefore(respond, temp);
+								temp.parentNode.removeChild(temp)
+							}
+						}
+					});
+					return false;
 				});
-				var t = faAjax,
-					cancel = t.I('cancel-comment-reply-link'),
-					temp = t.I('wp-temp-form-div'),
-					respond = t.I(t.respondId),
-					post = t.I('comment_post_ID').value,
-					parent = t.I('comment_parent').value;
-				if (parent != '0') {
-					jQuery('#respond').before('<ol class="children">' + data + '</ol>');
-				} else if (!jQuery('.' + __list ).length) {
-					if (stayma_url.formpostion == 'bottom') {
-						jQuery('#respond').before('<ol class="' + __list + '">' + data + '</ol>');
-					} else {
-						jQuery('#respond').after('<ol class="' + __list + '">' + data + '</ol>');
+				faAjax = {
+					I: function(e) {
+						return document.getElementById(e);
+					},
+					clearButterbar: function(e) {
+						if (jQuery(".butterBar").length > 0) {
+							jQuery(".butterBar").remove();
+						}
+					},
+					createButterbar: function(message) {
+						var t = this;
+						t.clearButterbar();
+						jQuery("#commentform").append('<div class="butterBar butterBar--center"><p class="butterBar-message">' + message + '</p></div>');
+						setTimeout("jQuery('.butterBar').remove()", 3000);
 					}
-
-				} else {
-					if (ajaxcomment.order == 'asc') {
-						jQuery('.' + __list ).append(data); // your comments wrapper
-					} else {
-						jQuery('.' + __list ).prepend(data); // your comments wrapper
-					}
-				}
-				t.createButterbar("提交成功");
-				cancel.style.display = 'none';
-				cancel.onclick = null;
-				t.I('comment_parent').value = '0';
-				if (temp && respond) {
-					temp.parentNode.insertBefore(respond, temp);
-					temp.parentNode.removeChild(temp)
-				}
-			}
-		});
-		return false;
-	});
-	faAjax = {
-		I: function(e) {
-			return document.getElementById(e);
-		},
-		clearButterbar: function(e) {
-			if (jQuery(".butterBar").length > 0) {
-				jQuery(".butterBar").remove();
-			}
-		},
-		createButterbar: function(message) {
-			var t = this;
-			t.clearButterbar();
-			jQuery("#commentform").append('<div class="butterBar butterBar--center"><p class="butterBar-message">' + message + '</p></div>');
-			setTimeout("jQuery('.butterBar').remove()", 3000);
-		}
-	};
-});
-
-
-
+				};
+			});
     }
 
 

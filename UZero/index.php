@@ -29,12 +29,7 @@
         </div>
         <!-- 首页内容主体 -->
         <div class="right-content">
-            <header class="index-header row">
-                <div class="col-md-11">
-                    <!-- 每日一句骚话容器，删了就不够骚了！ -->
-                    <p class="day-txt" id="day-txt"></p>
-                </div>
-            </header>
+            <?php include_once 'theme-header.php'; ?>
             <div class="content-box">
                 <h4>首页</h4>
                 <!-- 轮播图 -->
@@ -82,7 +77,8 @@
                         <article class="col-md-6 col-lg-3">
                             <div class="list-content-box">
                                 <div class="list-content-img">
-                                    <a href="<?php the_permalink(); ?>"><img class="lazy" data-original="<?php echo post_thumbnail_src(); ?>" data-loading="<?php bloginfo ('template_url'); ?>/images/loading.gif"></a>
+                                    <a href="<?php the_permalink(); ?>"><img class="lazy" data-original="<?php echo post_thumbnail_src(); ?>" data-loading="<?php bloginfo ('template_url'); ?>/images/loading.gif"><div class="overlay"><i class="iconfont icon-fangda"></i></div></a>
+
                                 </div>
                                 <div class="list-content-body">
                                     <a href="<?php the_permalink(); ?>"><h4><?php the_title(); ?></h4></a>
@@ -98,9 +94,7 @@
                 <?php previous_posts_link(__('<div class="load-more" style="display: inline-block;">上一页</div>')) ?>
                 <?php next_posts_link(__('<div class="load-more" style="display: inline-block;">下一页</div>')) ?>
                 </div>
-                <footer class="footer">
-                    <p>2019 © <a href="">WordPress</a> theme by <a href="">shanran</a> 国家神秘组织统一代码：<a href="">渝ICP备17003755号</a></p>
-                </footer>
+                <?php include_once 'theme-footer.php'; ?>
             </div>
         </div>
     </div>
