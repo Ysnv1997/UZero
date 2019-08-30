@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title><?php wp_title( ' - ', true, 'right' ); ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_1372667_f0yzpjpgc4d.css">
+    <link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_1372667_asfv800csjv.css">
 
 <?php wp_head(); ?>
 </head>

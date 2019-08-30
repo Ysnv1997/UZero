@@ -17,7 +17,7 @@
 									<?php the_category(' '); ?>
 								</div>
 							</article>
-							<div class="text-article">
+							<div class="text-article entry-content">
 								<?php the_content(); ?>
 							</div>
 						</div>

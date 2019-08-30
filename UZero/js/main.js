@@ -11,6 +11,19 @@ jQuery(document).ready(function($) {
 		 placeholder : "https://ftp.bmp.ovh/imgs/2019/08/2699faee29464b6a.gif",
 
 	});
+	// 图片灯箱注册
+	$('[data-fancybox="gallery"]').fancybox({
+		protect: true,
+		closeExisting: false,
+		afterLoad : function(instance, current) {
+	        var pixelRatio = window.devicePixelRatio || 1;
+
+	        if ( pixelRatio > 1.5 ) {
+	            current.width  = current.width  / pixelRatio;
+	            current.height = current.height / pixelRatio;
+	        }
+	    }
+	});
 	// 二级导航栏切换
 	if($('.navtager ul>li:has(ul)')){
 		$('.navtager ul>li:has(ul)').append('<span class="menu-icon"><i class="iconfont icon-xia"></i></span>')
@@ -51,13 +64,14 @@ jQuery(document).ready(function($) {
 	  }) 
 
 	// 劫持所有链接，站内iframe打开
-	$('a[href!=""][target!="_blank"][rel!="nofollow"]').on('click',function(){
+	$('a[href!=""][target!="_blank"][rel!="nofollow"][data-fancybox !="gallery"]').on('click',function(){
 		var href = $(this).attr('href');
 		if (href.indexOf('javascript')== 0) {return}
 		if ($(window).width()<=1200) {return}
+		$('iframe').remove()
 		$('#popIframe').append('<iframe frameborder="0" allowfullscreen="true" allowtransparency="true" src="'+href+'"></iframe>')
 		$('.popIframe').show();
-		$('.left-state-button').hide()
+		$('.left-state-button').hide();
 		return false;
 	})
 	// a跳转弹窗关闭

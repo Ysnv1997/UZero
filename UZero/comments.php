@@ -2,16 +2,23 @@
 <div id="comments" class="clearfix">
     <?php if ( ! comments_open() ):?>
     <div id="respond">
-        <p class="tips">
-            <?php echo '评论已关闭。'; ?>
-        </p>
+        <div class="comment-open-box">
+            <div class="tips">
+                <?php echo '评论已关闭。'; ?>
+            </div>
+        </div>
     </div>
     <?php else: ?>
     <div class="respond-box">
 	       <h3 class="comments-title"><i class="iconfont icon-comment commentIcon"></i> 评论<span style="font-size: 16px;"> (<?php echo get_comments_number();?>)</span></h3>
         <?php if ( get_option( 'comment_registration') && !$user_ID ) : ?>
-        <p class="tips">
-            <?php print '您必须'; ?><a href="<?php echo get_option('siteurl'); ?>/wp-login.php?redirect_to=<?php echo urlencode(get_permalink()); ?>"> [ 登录 ] </a>才能发表留言！</p>
+        <div class="comment-open-box">
+            <div class="tips">
+                <a class="but but-diy" href="<?php echo get_option('siteurl'); ?>/wp-login.php?redirect_to=<?php echo urlencode(get_permalink()); ?>">LOGIN</a>
+                <p><i class="iconfont icon-tubiao-"></i> 你必须登录之后才能评论</p>
+            </div>
+        </div>
+
         <?php else : ?>
         <div id="respond">
                     <form action="<?php echo get_option('siteurl'); ?>/wp-comments-post.php" method="post" id="commentform" class="commentform">

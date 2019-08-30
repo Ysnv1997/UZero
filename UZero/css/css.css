@@ -673,7 +673,188 @@ ul {
 .text-article img {
     max-width: 100%;
 }
+/*--------------------------------------------------------------
+## 文本样式
+--------------------------------------------------------------*/
+.entry-content {
+    padding-bottom: 60px;   
+}   
 
+.entry-content ul , .entry-content ol {
+    margin: 0;
+    padding: 5px 20px;
+    border: 1px solid #f9f9ff;
+    border-radius: 3px;
+    padding-left: 35px;
+    margin: 30px 0;     
+}
+    
+.entry-content ol {
+    list-style: decimal;
+}
+
+.entry-content ul li , .entry-content ol li {
+    font-size: 14px;
+    padding: 15px 0;
+    border-bottom: 1px solid #f9f9ff;
+    line-height: 25px;
+    position: relative; 
+}
+
+.entry-content ul li:last-child  , .entry-content ol li:last-child {
+    border-bottom: none;
+}
+
+.entry-content ul li:before {
+    content: "";
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: #95a1ff;
+    left: -15px;
+    top: 50%;
+    margin-top: -3px;
+    border-radius: 50%;
+}
+
+.entry-content h1 {
+    font-weight: 400;   
+}
+
+.entry-content h2 {
+    font-weight: 400;
+    position: relative;
+    padding-left: 20px;
+    display: inline-block;
+    width: 100%;
+}
+
+.entry-content h2:before {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #95a1ff;
+    left: 0px;
+    top: 14px;
+    border-radius: 50%;
+    border: 2px solid #376eff;
+}
+
+.entry-content h2:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    background: #f9f9ff;
+    left: 0;
+    bottom: -5px;   
+}
+
+.entry-content h3 {
+    font-weight: 400;
+    position: relative; 
+    padding-left: 20px;
+    display: inline-block;
+    width: 100%;
+}
+
+.entry-content h3:before {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #69ea80;
+    left: 0px;
+    top: 9px;
+    border-radius: 50%;
+    border: 2px solid #58b556;
+}
+
+.entry-content h3:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    background: #f9f9ff;
+    left: 0;
+    bottom: -9px;   
+}
+
+.entry-content h4 {
+    font-weight: 400;
+    position: relative; 
+    padding-left: 20px;
+    display: inline-block;
+    width: 100%;        
+}
+
+.entry-content h4:before {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #ff9c6b;
+    left: 0px;
+    top: 7px;
+    border-radius: 50%;
+    border: 2px solid #ff4a4a;
+}
+
+.entry-content h4:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    background: #f9f9ff;
+    left: 0;
+    bottom: -9px;   
+}
+
+.entry-content blockquote {
+    margin: 0;
+    border-left: 4px solid #b8b8ff;
+    padding-left: 20px;
+}
+
+.entry-content blockquote p {
+    font-size: 16px;
+}
+
+.entry-content blockquote cite {
+    font-size: 14px;
+    color: #9a9ac1; 
+}
+
+.entry-content .wp-block-button a {
+    border-radius: 5px;
+    transition: all .2s;
+}
+
+.entry-content .wp-block-button a:hover {
+    -moz-box-shadow: 3px 3px 5px rgba(191, 209, 255, 0.6);
+    -webkit-box-shadow: 3px 3px 5px rgba(191, 209, 255, 0.6);
+    box-shadow: 3px 3px 5px rgba(191, 209, 255, 0.6);   
+}
+
+.entry-content pre {
+    background: #f9f9ff;
+    color: #626290;
+}
+
+.entry-content table {
+    background: #fdfdff;
+    border: 1px solid #f9f9ff;
+    border-radius: 3px;
+}
+
+.entry-content tr {
+    padding: 15px;
+}
+
+.entry-content td {
+    padding: 15px;
+}
 /*评论列表样式*/
 .comment-box {
     margin: 30px 0;
@@ -801,6 +982,18 @@ ul.children > .comment{
 }
 .comment-footer em{
     padding-right: 1rem;
+}
+.comment-open-box{
+    padding: 80px 0;
+    text-align: center;
+}
+.comment-open-box a{
+    padding: 12px 6rem !important;
+    border-radius: 8px !important;
+}
+div.tips p{
+    padding: 1.25rem 0;
+    color: #b2afde
 }
 /*侧边栏*/
 .widget{

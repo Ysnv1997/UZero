@@ -9,7 +9,64 @@ add_theme_support('nav_menus');
 修复5.0.1版本后评论框不跟随
 **********************************************************************/
     wp_enqueue_script( 'comment-reply' );
-
+/**********************************************************************
+                            去除多余代码
+**********************************************************************/
+add_filter('show_admin_bar', '__return_false');
+remove_action('wp_head', 'feed_links', 2);
+remove_action('wp_head', 'feed_links_extra', 3);
+remove_action('wp_head', 'rsd_link');
+remove_action('wp_head', 'wlwmanifest_link');
+remove_action('wp_head', 'index_rel_link');
+remove_action('wp_head', 'parent_post_rel_link', 10, 0);
+remove_action('wp_head', 'start_post_rel_link', 10, 0);
+remove_action('wp_head', 'adjacent_posts_rel_link_wp_head', 10, 0);
+remove_action('wp_head', 'locale_stylesheet');
+remove_action('wp_head', 'noindex', 1);
+remove_action('wp_head', 'wp_print_head_scripts', 9);
+remove_action('wp_head', 'wp_generator');
+remove_action('wp_head', 'rel_canonical');
+remove_action('wp_head', 'wp_shortlink_wp_head', 10, 0);
+remove_action('wp_head', 'wp_oembed_add_host_js');
+remove_action('wp_head', 'wp_resource_hints', 2);
+remove_action('wp_head', 'rest_output_link_wp_head', 10);
+remove_action('wp_head', 'wp_oembed_add_discovery_links', 10);
+remove_action('wp_footer', 'wp_print_footer_scripts');
+remove_action('publish_future_post', 'check_and_publish_future_post', 10, 1);
+remove_action('template_redirect', 'wp_shortlink_header', 11, 0);
+remove_action('template_redirect', 'rest_output_link_header', 11, 0);
+remove_action('rest_api_init', 'wp_oembed_register_route');
+remove_filter('rest_pre_serve_request', '_oembed_rest_pre_serve_request', 10, 4);
+remove_filter('oembed_dataparse', 'wp_filter_oembed_result', 10);
+remove_filter('oembed_response_data', 'get_oembed_response_data_rich', 10, 4);
+add_filter( 'pre_option_link_manager_enabled', '__return_true' );
+add_filter('rest_enabled', '__return_false');
+add_filter('rest_jsonp_enabled', '__return_false');
+add_shortcode('reply', 'reply_to_read');
+add_filter('pre_site_transient_update_core',create_function('$a',"return null;")); // 关闭核心提示
+add_filter('pre_site_transient_update_plugins',create_function('$a',"return null;")); // 关闭插件提示
+add_filter('pre_site_transient_update_themes',create_function('$a',"return null;")); // 关闭主题提示
+remove_action('admin_init','_maybe_update_core');// 禁止 WordPress 检查更新
+remove_action('admin_init','_maybe_update_plugins');// 禁止 WordPress 更新插件
+remove_action('admin_init','_maybe_update_themes'); // 禁止 WordPress 更新主题
+//禁用文章自动保存
+add_action('wp_print_scripts','disable_autosave');
+function disable_autosave(){
+    wp_deregister_script('autosave');
+}
+//禁用文章修订版本
+add_filter( 'wp_revisions_to_keep', 'specs_wp_revisions_to_keep', 10, 2 );
+function specs_wp_revisions_to_keep( $num, $post ) {
+    return 0;
+}
+// 阻止站内文章互相Pingback
+function theme_noself_ping( &$links ) {
+    $home = get_theme_mod( 'home' );
+    foreach ( $links as $l => $link )
+        if ( 0 === strpos( $link, $home ) )
+            unset($links[$l]);
+}
+add_action('pre_ping','theme_noself_ping');
 /**********************************************************************
                             引入后台框架
 **********************************************************************/
@@ -30,6 +87,7 @@ function SuStatic() {
     wp_register_script( 'jquery1', get_template_directory_uri() . '/js/jquery.min.js', array(), true );
     wp_register_script( 'bootstrap', get_template_directory_uri() . '/js/bootstrap.min.js', array(), true );
     wp_register_script( 'swiper', get_template_directory_uri() . '/js/swiper.min.js', array(), true );
+    wp_register_script( 'fancybox', get_template_directory_uri() . '/js/jquery.fancybox.min.js', array(), true );
     wp_register_script( 'lazyload', get_template_directory_uri() . '/js/jquery.lazyload.min.js', array(), true );
     wp_register_script( 'dayjs', 'https://cdn.jsdelivr.net/npm/dayjs/dayjs.min.js', array(), true );
     wp_register_script( 'main', get_template_directory_uri() . '/js/main.js', array(), true );
@@ -39,6 +97,7 @@ function SuStatic() {
         wp_enqueue_style( 'css' );
         wp_enqueue_style( 'swiper' );
         wp_enqueue_style( 'bootstrap' );
+        wp_enqueue_style( 'fancybox' );
         wp_enqueue_style( 'style' );
 
         wp_enqueue_script( 'jquery1' );
@@ -46,9 +105,11 @@ function SuStatic() {
         wp_enqueue_script( 'swiper' );
         wp_enqueue_script( 'lazyload' );
         wp_enqueue_script( 'dayjs' );
+        wp_enqueue_script( 'fancybox' );
         wp_enqueue_script( 'main' );
     }
     wp_enqueue_style( 'bootstrap', get_template_directory_uri() . '/css/bootstrap.min.css');
+    wp_enqueue_style( 'fancybox', get_template_directory_uri() . '/css/jquery.fancybox.min.css');
     wp_enqueue_style( 'swiper', get_template_directory_uri() . '/css/swiper.min.css');
     wp_enqueue_style( 'css', get_template_directory_uri() . '/css/css.css');
     wp_enqueue_style( 'style', get_stylesheet_uri());
@@ -159,44 +220,6 @@ function wpmee_end_comment() {
     echo '</article>';
 };
 
-/**********************************************************************
-                            SEO 标题设置
-**********************************************************************/
-function yct_seo_title( $title ){
-    global $post;
-    //静态首页SEO标题
-    if( (is_front_page()) ) {
-        //获取静态页面的SEO标题，第一个为标题，第二个为关键字
-        $seo_meta =explode('||',get_post_meta($post->ID,'seo_info',true));
-        //如果标题存在
-        if ($seo_meta[0]){
-            //如果存在首页标题描述则取消
-            if(isset( $title['tagline'] )) {unset( $title['tagline'] );}
-            //设置首页的SEO标题
-            $title['title']=strip_tags($seo_meta[0]);
-        }
-    }elseif( (is_single() || is_page()) ) {
- 
-        //获取页面、文章的SEO标题，第一个为标题，第二个为关键字
-        $seo_meta =explode('||',get_post_meta($post->ID,'seo_info',true));
-        //如果标题存在
-        if ($seo_meta[0]){
-            //设置页面、文章的SEO标题
-            $title['title']=strip_tags($seo_meta[0]);
-        }
-    }elseif( (is_tag() || is_category()) ) {
-            //获取标签、分类的SEO标题，第一个为普通描述，第二个为SEO标题
-            $seo_meta =explode('||',get_the_archive_description());
-            //如果标题存在
-            if ($seo_meta[1]){
-                //设置页面、文章的SEO标题
-                $title['title']=strip_tags($seo_meta[1]);
-        }
-    }
-    //返回标题
-    return $title;
-}
-add_filter( 'document_title_parts', 'yct_seo_title' );
 /**********************************************************************
                             SEO 标题设置
 **********************************************************************/
@@ -374,4 +397,322 @@ function last_login() {
     // } else {
         echo '主人翁在'.$str.'来过。';
     // }
+}
+/**********************************************************************
+                    SEO优化
+**********************************************************************/
+add_filter('the_content', 'fancybox');
+function fancybox($content){ 
+    global $post;
+    $pattern = "/<img(.*?)src=('|\")([^>]*).(bmp|gif|jpeg|jpg|png|swf)('|\")(.*?)>/i";
+    $replacement = '<a$1href=$2$3.$4$5 data-fancybox="gallery"><img$1src=$2$3.$4$5$6></a>';
+    $content = preg_replace($pattern, $replacement, $content);
+    return $content;
+}
+/**********************************************************************
+                    SEO优化
+**********************************************************************/
+//add meta boxes
+add_action('add_meta_boxes','web589_post_meta_box');
+function web589_post_meta_box(){
+    add_meta_box('web589_post_meta_box','自定义SEO设置','Web589Meta_postmeta_form','post','normal','low');
+    add_meta_box('web589_post_meta_box','自定义SEO设置','Web589Meta_postmeta_form','page','normal','low');
+}
+//add meta form
+function Web589Meta_postmeta_form(){
+    include_once('inc/singular-form.php');
+}
+//save meta
+add_action('save_post','Web589Meta_save_post_meta');
+function Web589Meta_save_post_meta($id){
+    if( isset($_POST['meta_save']) && $_POST['meta_save']=='on'){
+        $title='title';
+        $keywords='keywords';
+        $description='description';
+        $metas='code';      
+        $val=array(
+            $title=>$_POST[$title],
+            $keywords=>$_POST[$keywords],
+            $description=>$_POST[$description],
+            $metas=>$_POST[$metas],
+        );
+        update_post_meta($id,'_web589_singular_meta',$val);
+    }
+}
+//datas
+function Web589Meta_datas(){
+    $datas=array(
+        'singular'=>array(
+            '_aioseop_title',
+            '_aioseop_keywords',
+            '_aioseop_description',
+            '_web589_head_code'
+        ),
+    );
+    return $datas;
+}
+//add cat metabox
+add_action('edit_category_form','web589_cat_meta_box');
+function web589_cat_meta_box(){
+    if( isset($_GET['tag_ID']) && $_GET['tag_ID']!=0 && $_GET['taxonomy']=='category' ) include_once('inc/cat-form.php');
+}
+add_action('edit_category','web589_save_cat_meta');
+function web589_save_cat_meta(){    
+    if( isset($_POST['action']) && isset($_POST['taxonomy']) && $_POST['action']=='editedtag' && $_POST['taxonomy']=='category' ){
+        update_option('cat_meta_key_'.$_POST['tag_ID'],array('page_title'=>$_POST['cat_page_title'],'description'=>$_POST['cat_description'],'metakey'=>$_POST['cat_keywords'],'metas'=>$_POST['cat_metas']));
+    }
+}
+//add tag metabox
+add_action('edit_tag_form','web589_tag_meta_box');
+function web589_tag_meta_box(){
+    if( $_GET['taxonomy']=='post_tag' && $_GET['tag_ID']!=0 ) include_once('inc/tag-form.php');
+}
+add_action('admin_init','web589_save_tag_meta');
+function web589_save_tag_meta(){    
+    if( isset($_POST['action']) && isset($_POST['taxonomy']) && $_POST['action']=='editedtag' && $_POST['taxonomy']=='post_tag' ){
+        update_option('tag_meta_key_'.$_POST['tag_ID'],array('page_title'=>$_POST['tag_page_title'],'description'=>$_POST['tag_description'],'metakey'=>$_POST['tag_keywords'],'metas'=>$_POST['tag_metas']));
+    }
+}
+//add meta action
+add_action('wp_head','web589_meta_action');
+function web589_meta_action(){
+    $data=Web589Meta_datas();
+    
+    $pages=get_query_var('page');
+    if( (is_single() || is_page()) && $pages<2 ){
+        $id=get_the_ID();
+        $switch=get_option('aioseop_options');
+        $tag = '';
+        $tags=get_the_tags();
+        if( $tags ){
+            foreach($tags as $val){
+                $tag.=','.$val->name;
+            }
+        }
+        $tag=ltrim($tag,',');
+        $meta=get_post_meta($id,'_web589_singular_meta',true);
+        $key_meta= isset($meta['keywords']) ? $meta['keywords'] : '';
+        $des_meta=isset($meta['description']) ? $meta['description'] : '';
+        $pts=get_post($id);
+        $pt=preg_replace('/\s+/','',strip_tags($pts->post_content));
+        $num = cs_get_option('web589_auto_description_num') ? (int) cs_get_option('web589_auto_description_num') : 0;
+        $excerpt=mb_strimwidth($pt,0,$num, '', get_bloginfo( 'charset' ) );
+        
+        if( empty($key_meta) && cs_get_option('web589_auto_keywords')  && isset($tag) ) $keywords=$tag;
+        else $keywords=$key_meta;
+        if( empty($des_meta) && cs_get_option('web589_auto_description') ) $description=$excerpt;
+        else $description=$des_meta;
+        if($keywords){  
+            echo '<meta name="keywords" content="'.$keywords.'" />';
+            echo "\n";
+        }
+        if($description){   
+            echo '<meta name="description" content="'.esc_attr($description).'" />';
+            echo "\n";
+        }
+    } 
+    
+    if( (is_home() || is_front_page()) && !is_paged() ){
+        $val=get_option('aioseop_options');
+        $keywords=cs_get_option('aiosp_home_keywords');
+        $description=cs_get_option('aiosp_home_description');
+        $metas=cs_get_option('aiosp_home_metas');
+        if($keywords){  
+            echo '<meta name="keywords" content="'.$keywords.'" />';
+            echo "\n";
+        }
+        if($description){
+            echo '<meta name="description" content="'.esc_attr(stripslashes($description)).'" />';
+            echo "\n";
+        }   
+    }
+    
+    if(is_category() && !is_paged()){
+        $cat_id=get_query_var('cat');
+        $val=get_option('cat_meta_key_'.$cat_id);
+        $keywords=$val['metakey'];
+        $description=$val['description'];
+        $metas=$val['metas'];
+        if($keywords){
+            echo '<meta name="keywords" content="'.$keywords.'" />';
+            echo "\n";
+        }
+        if($description){
+            echo '<meta name="description" content="'.esc_attr(stripslashes($description)).'" />';
+            echo "\n";
+        }
+    }
+    if( is_tax('special') && !is_paged() ){
+        $queried_object = get_queried_object(); 
+        $term_id = $queried_object->term_id;
+        $term_description = get_term_meta( $term_id, 'suxing_term_description', true );
+        $keywords   = get_term_meta( $term_id, 'suxing_term_keywords', true );
+        $description   = ( isset( $term_description ) && !empty( $term_description ) ? $term_description : $queried_object->description );
+        if($keywords){
+            echo '<meta name="keywords" content="'.$keywords.'" />';
+            echo "\n";
+        }
+        if($description){
+            echo '<meta name="description" content="'.esc_attr(stripslashes($description)).'" />';
+            echo "\n";
+        }
+    }
+    
+    if(is_tag() && !is_paged()){
+        $tag_id=get_query_var('tag_id');
+        $val=get_option('tag_meta_key_'.$tag_id);
+        $keywords=$val['metakey'];
+        $description=$val['description'];
+        $metas=$val['metas'];
+        if($keywords){
+            echo '<meta name="keywords" content="'.$keywords.'" />';
+            echo "\n";
+        }
+        if($description){
+            echo '<meta name="description" content="'.esc_attr(stripslashes($description)).'" />';
+            echo "\n";
+        }   
+    }   
+}
+//wp title filter
+add_filter( 'wp_title', 'dxseo_title_filter', 10, 2 );
+function dxseo_title_filter( $title, $sep ){
+    global $paged, $page, $post;
+    $option = get_option( 'aioseop_options' );
+    $data = Web589Meta_datas();
+    $sep = cs_get_option('dxseo_title_sep') ? cs_get_option('dxseo_title_sep'): ' - ';
+    if( is_single() || is_page() ){
+        $meta=get_post_meta($post->ID,'_web589_singular_meta',true);
+        $title = ( isset($meta['title']) && !empty($meta['title']) ) ? $meta['title'] : get_the_title( $post->ID );
+    }
+    else if( is_home() || is_front_page() ){
+        $title = ( cs_get_option('aiosp_home_title') && !empty(cs_get_option('aiosp_home_title') )) ? cs_get_option('aiosp_home_title') : get_bloginfo('name').$sep.get_bloginfo('description');
+    }
+    else if(is_category()){
+        $cat_id=get_query_var('cat');
+        $val=get_option('cat_meta_key_'.$cat_id);
+        $title = ( isset($val['page_title']) && !empty($val['page_title']) ) ? $val['page_title'] : get_cat_name($cat_id);
+    }
+    else if(is_tag()){
+        $tag_id=get_query_var('tag_id');
+        $val=get_option('tag_meta_key_'.$tag_id);
+        $title = ( isset($val['page_title']) && !empty($val['page_title']) ) ? $val['page_title'] : single_tag_title( '', false );
+    }
+    else if( is_tax('special') ){
+        $queried_object = get_queried_object(); 
+        $term_id = $queried_object->term_id;
+        $term_title = get_term_meta( $term_id, 'suxing_term_title', true );
+        $title = ( isset( $term_title ) && !empty( $term_title ) ? $term_title : $queried_object->name );
+    }
+    else if( is_author() && ! is_post_type_archive() ){
+        $author = get_queried_object();
+        if ( $author ) {
+            $title = $author->display_name;
+        }
+    }
+    else if( is_search() ) {
+        $title = "搜索结果：".get_query_var( 's' );
+    }
+    else if ( is_404() ) {
+        $title = __( 'Page not found' );
+    }
+    
+    if( cs_get_option('dxseo_title_suffix') && cs_get_option('dxseo_title_suffix')  && !is_home() && !is_front_page() )
+        $title .= $sep.get_bloginfo( 'name' );
+    if ( ( $paged >= 2 || $page >= 2 ) && cs_get_option('dxseo_title_paged') && cs_get_option('dxseo_title_paged')  )
+        $title = $title.$sep.sprintf( '第 %s 页', max( $paged, $page ) );
+    $tailed = isset($option['dxseo_title_tail']) ? $option['dxseo_title_tail'] : '';
+    return $title.$tailed;
+}
+//add wp_head action
+add_action('wp_head','web589_custom_code');
+function web589_custom_code(){
+    if( is_single() || is_page() ){
+        $meta=get_post_meta(get_the_ID(),'_web589_singular_meta',true);
+        if( isset($meta['code']) && $meta['code'] ){
+            echo $meta['code']."\n";
+        }
+    }
+    if( is_home() || is_front_page() ){
+        $val=get_option('aioseop_options');
+        $metas=cs_get_option('aiosp_home_metas');
+        if( isset($metas) && $metas ){
+            echo stripslashes($metas);
+            echo "\n";  
+        }
+    }
+    if(is_category()){
+        $cat_id=get_query_var('cat');
+        $val=get_option('cat_meta_key_'.$cat_id);
+        $metas=$val['metas'];
+        if( isset( $metas ) && $metas){
+            echo stripslashes($metas);
+            echo "\n";  
+        }
+    }
+    if(is_tag()){
+        $tag_id=get_query_var('tag_id');
+        $val=get_option('tag_meta_key_'.$tag_id);
+        $metas=$val['metas'];
+        if( isset($metas) && $metas ){
+            echo stripslashes($metas);
+            echo "\n";  
+        }
+    }
+}
+//new special
+add_action( 'special_edit_form_fields', 'suxing_edit_term_seo_field' );
+function suxing_edit_term_seo_field( $term ) {
+    $title   = get_term_meta( $term->term_id, 'suxing_term_title', true );
+    $keywords   = get_term_meta( $term->term_id, 'suxing_term_keywords', true );
+    $description   = get_term_meta( $term->term_id, 'suxing_term_description', true );
+    ?>
+
+        <tr class="form-field suxing-term-seo-wrap">
+            <th scope="row"><label for="suxing-term-title">SEO自定义标题</label></th>
+            <td>
+                <input type="text" name="suxing_term_title" id="suxing-term-title" value="<?php echo esc_attr( $title ); ?>" />
+            </td>
+        </tr>
+
+        <tr class="form-field suxing-term-seo-wrap">
+            <th scope="row"><label for="suxing-term-keywords">SEO自定义关键词</label></th>
+            <td>
+                <input type="text" name="suxing_term_keywords" id="suxing-term-keywords" value="<?php echo esc_attr( $keywords ); ?>" />
+            </td>
+        </tr>
+
+        <tr class="form-field suxing-term-seo-wrap">
+            <th scope="row"><label for="suxing-term-description">SEO自定义描述</label></th>
+            <td>
+                <textarea name="suxing_term_description" id="suxing-term-description"><?php echo esc_attr( $description ); ?></textarea>
+            </td>
+        </tr>
+
+
+    <?php echo wp_nonce_field( basename( __FILE__ ), 'suxing_term_seo_nonce' );
+}
+add_action( 'create_special', 'suxing_save_term_seo' );
+add_action( 'edit_special',   'suxing_save_term_seo' );
+function suxing_save_term_seo( $term_id ) {
+    if ( ! isset( $_POST['suxing_term_seo_nonce'] ) || ! wp_verify_nonce( $_POST['suxing_term_seo_nonce'], basename( __FILE__ ) ) )
+        return;
+    $title = isset( $_POST['suxing_term_title'] ) ? $_POST['suxing_term_title'] : '';
+    $keywords = isset( $_POST['suxing_term_keywords'] ) ? $_POST['suxing_term_keywords'] : '';
+    $description = isset( $_POST['suxing_term_description'] ) ? $_POST['suxing_term_description'] : '';
+    if ( '' === $title ) {
+        delete_term_meta( $term_id, 'suxing_term_title' );
+    } else {
+        update_term_meta( $term_id, 'suxing_term_title', $title );
+    }
+    if ( '' === $keywords ) {
+        delete_term_meta( $term_id, 'suxing_term_keywords' );
+    } else {
+        update_term_meta( $term_id, 'suxing_term_keywords', $keywords );
+    }
+    if ( '' === $description ) {
+        delete_term_meta( $term_id, 'suxing_term_description' );
+    } else {
+        update_term_meta( $term_id, 'suxing_term_description', $description );
+    }
 }
