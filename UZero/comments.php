@@ -83,7 +83,7 @@
     </div>
     <?php if ( get_comment_pages_count()>1 && get_option( 'page_comments' ) ) : ?>
         <div id="comments-navi">
-            <?php paginate_comments_links( 'prev_text=<i class="iconfont icon-jiantou_liebiaoxiangzuo"></i>&next_text=>'); ?>
+            <?php paginate_comments_links( 'prev_text=<i class="iconfont icon-left"></i>&next_text=<i class="iconfont icon-right"></i>'); ?>
         </div>
     <?php endif;?>
     <?php endif;?>

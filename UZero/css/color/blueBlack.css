@@ -1,0 +1,32 @@
+body{
+	background: #e1ecf954;
+}
+/*左导航背景色*/
+.box-left{
+	background: #283149 !important;
+}
+.box-left .contact{
+	border-top: 1px solid #404b69 !important
+}
+/*按钮颜色*/
+.but.but-diy,
+.link.iframe.btn{
+	background:#00818a !important;
+	border: 0px;
+	box-shadow: 0px 5px 20px -3px rgba(152, 204, 211, .6) !important
+}
+#comments-navi .prev:hover,
+#comments-navi .next:hover,
+#comments-navi .current,
+.pages-nav .nav-links>.prev:hover,
+.pages-nav .nav-links>.next:hover,
+.pages-nav .nav-links>.current{
+	background:#00818a !important;
+	box-shadow: 0px 5px 20px -3px rgba(152, 204, 211, .6) !important
+}
+#respond .comment-from-textarea textarea{
+	background-color: #9ad7db24 !important;
+}
+.list-content-img .overlay{
+	background:#283149;
+}

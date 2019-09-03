@@ -88,35 +88,30 @@ function ajax_comment_callback(){
     ?>
 
 
-<article <?php comment_class($GLOBALS['wow_comments']); ?> class="comment even thread-even depth-1" id="comment-<?php comment_ID() ?>">
-    <div class="comments-details">
-        <div class="author-image">
-            <img alt='' src='<?php echo get_avatar_url( $comment ); ?>' class='avatar avatar-50 photo' height='50' width='50' />
-        </div>
-        <div class="comment-text">
-            <div class="c-title">
-                <h4>
-                    <?php comment_author_link() ?>
-                </h4>
+<article <?php comment_class($GLOBALS['wow_comments']); ?>  id="li-comment-<?php comment_ID() ?>">
+    <div id="comment-<?php comment_ID() ?>">
+        <div class="comment-avatar"><?php echo get_avatar( $comment ); ?></div>
+        <div class="comment-body">
+            <div class="comment_author">
+                <span class="name"><?php comment_author_link() ?></span>
             </div>
-            <div class="c-content">
-                <p>
-                    <?php comment_text() ?>
-                    <?php if ( $comment->comment_approved == '0' ) : ?>
-                    <font style="color:#C00; font-style:inherit; margin: 0px 0 15px 0;display: block;">您的评论正在等待审核中...</font>
-                    <?php endif; ?>
-                </p>
+            <div class="comment-text">
+                <?php comment_text() ?>
+                <?php if ( $comment->comment_approved == '0' ) : ?>
+                <font style="color:#c00; font-style:inherit">您的评论正在等待审核中...</font>
+                <?php endif; ?>
             </div>
-            <div class="reply">
-                <span>
-                    <?php echo get_comment_time('Y-m-d H:i') ?>
-                </span>
-                <span>
+            <div class="comment_reply">
+                <span class="comment_reply_but">
                     <?php comment_reply_link(array_merge( $args, array('depth' => $depth, 'max_depth' => $args['max_depth'], 'reply_text' => "回复"))) ?>
                 </span>
             </div>
+            <div class="comment-footer">
+                <em><?php echo get_comment_time('Y-m-d H:i') ?></em><span class="hidden-xs hidden-sm">通过：
+                <?php echo user_agent($comment->comment_agent); ?> 发布</span>
+            </div>
         </div>
-    </article>
+    </div>
 
 
 

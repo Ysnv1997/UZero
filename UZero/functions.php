@@ -1,9 +1,8 @@
 <?php 
-
 register_nav_menus(array(
     'PrimaryMenu'=>'导航',
-	'mobile'=>'移动端导航',
-	'footer_nav'=>'页脚导航'));
+	'mobile'=>'移动端导航'
+));
 add_theme_support('nav_menus');
 /**********************************************************************
 修复5.0.1版本后评论框不跟随
@@ -46,9 +45,6 @@ add_shortcode('reply', 'reply_to_read');
 add_filter('pre_site_transient_update_core',create_function('$a',"return null;")); // 关闭核心提示
 add_filter('pre_site_transient_update_plugins',create_function('$a',"return null;")); // 关闭插件提示
 add_filter('pre_site_transient_update_themes',create_function('$a',"return null;")); // 关闭主题提示
-remove_action('admin_init','_maybe_update_core');// 禁止 WordPress 检查更新
-remove_action('admin_init','_maybe_update_plugins');// 禁止 WordPress 更新插件
-remove_action('admin_init','_maybe_update_themes'); // 禁止 WordPress 更新主题
 //禁用文章自动保存
 add_action('wp_print_scripts','disable_autosave');
 function disable_autosave(){
@@ -112,6 +108,37 @@ function SuStatic() {
     wp_enqueue_style( 'fancybox', get_template_directory_uri() . '/css/jquery.fancybox.min.css');
     wp_enqueue_style( 'swiper', get_template_directory_uri() . '/css/swiper.min.css');
     wp_enqueue_style( 'css', get_template_directory_uri() . '/css/css.css');
+
+// 切换主题颜色
+switch (cs_get_option('plus_color')) {
+    case 'blue':
+            wp_enqueue_style( 'blue', get_template_directory_uri() . '/css/color/blue.css');
+            wp_enqueue_style( 'blue' );
+        break;
+
+    case 'blueBlack':
+       wp_enqueue_style( 'blueBlack', get_template_directory_uri() . '/css/color/blueBlack.css');
+        wp_enqueue_style( 'blueBlack' );
+        break;
+
+    case 'black':
+        wp_enqueue_style( 'black', get_template_directory_uri() . '/css/color/black.css');
+        wp_enqueue_style( 'black' );
+        break;
+
+    case 'no': break;
+}
+
+
+
+    
+
+
+
+
+
+
+
     wp_enqueue_style( 'style', get_stylesheet_uri());
 
     wp_localize_script( 'main', 'stayma_url',
@@ -398,8 +425,37 @@ function last_login() {
         echo '主人翁在'.$str.'来过。';
     // }
 }
+
+
+
 /**********************************************************************
-                    SEO优化
+                    博客总访问量
+**********************************************************************/
+function all_view() /*注意这个函数名，调用的就是用它了*/
+{
+    global $wpdb;
+    $count=0;
+    $views= $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE meta_key='views'");
+    foreach($views as $key=>$value)
+    {
+    $meta_value=$value->meta_value;
+    if($meta_value!=' ')
+    {
+    $count+=(int)$meta_value;}
+    }
+return $count;
+}
+/**********************************************************************
+                    博客总访问量
+**********************************************************************/
+function wpb_comment_count() {
+    $comments_count = wp_count_comments();
+    $commentNumber =  $comments_count->approved;
+    return $commentNumber;
+}
+
+/**********************************************************************
+                    图片灯箱
 **********************************************************************/
 add_filter('the_content', 'fancybox');
 function fancybox($content){ 
@@ -715,4 +771,91 @@ function suxing_save_term_seo( $term_id ) {
     } else {
         update_term_meta( $term_id, 'suxing_term_description', $description );
     }
+}
+
+/**********************************************************************
+                            外部链接自动加nofollow
+**********************************************************************/
+add_filter( 'the_content', 'link_nofollow');
+function link_nofollow( $content ) {
+    $regexp = "<a\s[^>]*href=(\"??)([^\" >]*?)\\1[^>]*>";
+    if( preg_match_all("/$regexp/siU", $content, $matches, PREG_SET_ORDER) ) {
+        if( ! empty($matches) ) {
+            $srcUrl = get_option( 'siteurl' );
+            for ( $i=0; $i < count($matches); $i++ ){
+                $tag = $matches[$i][0];
+                $tag2 = $matches[$i][0];
+                $url = $matches[$i][0];
+                $noFollow = '';
+                $pattern = '/target\s*=\s*"\s*_blank\s*"/';
+                preg_match( $pattern, $tag2, $match, PREG_OFFSET_CAPTURE );
+                if( count($match) < 1 ) $noFollow .= ' target="_blank" ';
+                $pattern = '/rel\s*=\s*"\s*[n|d]ofollow\s*"/';
+                preg_match( $pattern, $tag2, $match, PREG_OFFSET_CAPTURE );
+                if( count($match) < 1 ) $noFollow .= ' rel="nofollow" ';
+                $pos = strpos( $url, $srcUrl );
+                if ( $pos === false ) {
+                    $tag = rtrim ( $tag, '>' );
+                    $tag .= $noFollow.'>';
+                    $content = str_replace( $tag2, $tag, $content );
+                }
+            }
+        }
+    }
+    $content = str_replace( ']]>', ']]>', $content );
+    return $content;
+}
+/**********************************************************************
+                            图片自动alt标签
+**********************************************************************/
+add_filter('the_content', 'auto_images_alt');
+function auto_images_alt($content) {
+    global $post;
+    $pattern ="/<a(.*?)href=('|\")(.*?).(bmp|gif|jpeg|jpg|png)('|\")(.*?)>/i";
+    $replacement = '<a$1href=$2$3.$4$5 alt="'.$post->post_title.'" title="'.$post->post_title.'"$6>';
+    $content = preg_replace($pattern, $replacement, $content);
+    return $content;
+}
+
+/**********************************************************************
+                            搜索结果排除页面
+**********************************************************************/
+add_filter('pre_get_posts','wpjam_exclude_page_from_search');
+function wpjam_exclude_page_from_search($query) {
+    if ($query->is_search) {
+        $query->set('post_type', 'post');
+    }
+    return $query;
+}
+
+/**********************************************************************
+                    根据上传时间重命名文件
+**********************************************************************/
+if (cs_get_option( 'plus_upload_filter' )){
+    add_filter('wp_handle_upload_prefilter', 'custom_upload_filter' );
+        function custom_upload_filter( $file ){
+            $info = pathinfo($file['name']);
+            $ext = $info['extension'];
+            $filedate = date('YmdHis').rand(10,99);//为了避免时间重复，再加一段2位的随机数
+            $file['name'] = $filedate.'.'.$ext;
+            return $file;
+        }
+    }
+/**********************************************************************
+                    评论头像
+**********************************************************************/
+if( !cs_get_option('gravatar_url') || cs_get_option('gravatar_url') == 'ssl' ){
+    add_filter('get_avatar', '_get_ssl2_avatar');
+}else if( cs_get_option('gravatar_url') == 'duoshuo' ){
+    add_filter('get_avatar', '_duoshuo_get_avatar', 10, 3);
+}
+//官方Gravatar头像调用ssl头像链接
+function _get_ssl2_avatar($avatar) {
+    $avatar = preg_replace('/.*\/avatar\/(.*)\?s=([\d]+)&.*/','<img src="https://secure.gravatar.com/avatar/$1?s=$2&d=mm" class="avatar avatar-$2" height="50" width="50">',$avatar);
+    return $avatar;
+}
+//多说官方Gravatar头像调用
+function _duoshuo_get_avatar($avatar) {
+    $avatar = str_replace(array("www.gravatar.com", "0.gravatar.com", "1.gravatar.com", "2.gravatar.com"), "cn.gravatar.com", $avatar);
+    return $avatar;
 }

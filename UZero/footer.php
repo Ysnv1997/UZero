@@ -8,9 +8,9 @@
         </div>
         <div class="site-search-body">
             <div class="container">
-                <form method="get" role="search" class="form-search form-horizontal" action="">
+                <form method="get" role="search" class="form-search form-horizontal" action="<?php echo home_url( '/' ); ?>">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="搜索内容" aria-describedby="basic-addon2">
+                        <input type="text" name="s" class="form-control" placeholder="搜索内容" aria-describedby="basic-addon2">
                         <div class="input-group-addon">
                             <button type="submit" class="btn btn-light"><i class="iconfont icon-search"></i></button>
                         </div>
@@ -24,7 +24,9 @@
         <a href="" class="closemask" id="closemask"></a>
     </div>
     <?php wp_footer();?>
-
+    <div>
+        <?php echo cs_get_option('plus_diy_js');?>
+    </div>
 </body>
 
 </html>

@@ -5,16 +5,20 @@
     <meta charset="UTF-8">
     <title><?php wp_title( ' - ', true, 'right' ); ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_1372667_asfv800csjv.css">
-
+    <link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_1372667_rced4rx280q.css">
 <?php wp_head(); ?>
+
+<style>
+    <?php echo cs_get_option('plus_diy_css');?>
+</style>
+
 </head>
 
 <body class="">
     <!-- 左导航 -->
     <div class="box-left">
         <div class="left-logo">
-            <a href="<?php bloginfo('url'); ?>"><?php bloginfo('name'); ?></a>
+            <a rel="nofollow" href="<?php bloginfo('url'); ?>"><?php bloginfo('name'); ?></a>
         </div>
         <div class="navtager">
             <?php 
@@ -30,7 +34,7 @@
             <ul>
                 <?php if(cs_get_option('plus_left_qqImg')): ?>
                 <li><a href="javascript:" data-img="<?php echo cs_get_option('plus_left_qqImg') ?>" data-title="扫一扫添加站长QQ" data-desc="<?php bloginfo('name')?>" class="pr-2 text-light single-popup">
-                        <i class="iconfont icon-weixin"></i></a></li>
+                        <i class="iconfont icon-qq"></i></a></li>
                 <?php endif; ?>
                 <?php if(cs_get_option('plus_left_wxImg')): ?>
                 <li>
@@ -39,11 +43,14 @@
                 </li>
                 <?php endif; ?>
                 <?php if(cs_get_option('plus_left_github')): ?>
-                <li><a href="<?php echo cs_get_option('plus_left_github') ?>"><i class="iconfont icon-github"></i></a></li>
+                <li><a target="_blank" href="<?php echo cs_get_option('plus_left_github') ?>"><i class="iconfont icon-github"></i></a></li>
                 <?php endif; ?>
                 <li><a href="javascript:;"><i class="iconfont icon-search"></i></a></li>
             </ul>
         </div>
+
+
+
     </div><!-- 
     <div class="left-state-button">
         <i class="iconfont icon-Left"></i>

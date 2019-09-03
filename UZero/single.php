@@ -23,22 +23,33 @@
 						</div>
 						<?php } ?>
 
+
+						<?php if(cs_get_option('adv-single-content-1')): ?>
+							<article class="adv shadow" style="margin-top: 30px;">
+								<?php echo cs_get_option('adv-single-content-1'); ?>
+							</article>
+						<?php endif; ?>
+
+
+
 						<div class="comment-box shadow">
 							<?php comments_template(); ?>
 						</div>
+
+
 					</div>
 					<div class="col-md-3 col-sm-4">
 						<article class="widget blog-info shadow">
-							<div class="blog-info-header" style="background-image: url(https://fui.im/wp-content/themes/easter/img/infobg.jpg);">
+							<div class="blog-info-header" style="background-image: url(<?php echo cs_get_option('plus_blog_info_bgImg') ?>);">
 								<span class="blog-info-name">
 									<h4>山然博客</h4>
 									<span>@ShanRan</span>
 								</span>
-								<img class="blog-info-img" src="http://0.gravatar.com/avatar/64337665631783c1b73030a1681fd289?s=128&d=mm&r=g">
+								<img class="blog-info-img" src="<?php echo get_avatar_url(get_the_author_meta('email')); ?>">
 								
 							</div>
 							<div class="blog-info-txt">
-								<p>一个提前秃头的95后青年程序员！</p>
+								<p><?php echo cs_get_option('plus_description'); ?></p>
 							</div>
 							<div class="blog-pucll-info">
 								<div class="blog-pucll-butt row">
@@ -46,55 +57,74 @@
 										<span>
 											<i class="iconfont icon-bi"></i>文章
 										</span>
-										<p>62</p>
+										<p><?php echo wp_count_posts()->publish; ?></p>
 									</div>
 									<div class="blog-pucll-butt-on link col-xs-4">
 										<span>友人</span>
-										<p>62</p>
+										<p><?php $link = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->links WHERE link_visible = 'Y'"); echo $link; ?></p>
 									</div>
 									<div class="blog-pucll-butt-on col-xs-4">
-										<span>访问</span>
-										<p>62</p>
+										<span>评论</span>
+										<p><?php echo wpb_comment_count();?></p>
 									</div>
 								</div>
 								<div class="blog-pucll-box">
 									<ul class="">
-										<li><a href="">一款骚气的WordPress主题！</a></li>
-										<li><a href="">一款骚气的WordPress主题！</a></li>
-										<li><a href="">一款骚气的WordPress主题！</a></li>
-										<li><a href="">一款骚气的WordPress主题！</a></li>
-										<li><a href="">一款骚气的WordPress主题！</a></li>
+									<?php 
+						                $sticky = get_option( 'sticky_posts' );
+						                $args = array(
+						                    'posts_per_page'=>5,
+						                    'orderby'=>'date'
+						                );
+						                $the_query = new WP_Query( $args ); ?>
+						                <?php while ( $the_query->have_posts() ) : $the_query->the_post(); ?>
+										<li><a href="<?php the_permalink() ?>"><?php the_title(); ?></a></li>
+
+										<?php endwhile;wp_reset_postdata(); ?>
 									</ul>
 								</div>
 								<div class="blog-list-info">
 									<ul>
-										<li><i class="iconfont icon-dingwei"></i> 重庆 · 渝北</li>
-										<li><i class="iconfont icon-linedesign-14"></i> 3653次访问</li>
-										<li><i class="iconfont icon-shijian"></i> 建站3695天</li>
+										<li><i class="iconfont icon-dingwei"></i> <?php echo cs_get_option('plus_from'); ?></li>
+										<li><i class="iconfont icon-linedesign-14"></i> <?php echo all_view(); ?>次访问</li>
+										<li><i class="iconfont icon-shijian"></i> 建站<?php echo floor((time()-strtotime(cs_get_option('plus_date')))/86400); ?>天</li>
 										<li><i class="iconfont icon-Mac"></i> <?php last_login(); ?></li>
 									</ul>
 								</div>
 								<div class="blog-info-button">
-									<a href="" class="but but-diy">邮箱联系</a>
-									<a href="" class="but but-diy">在线沟通</a>
+									<a target="_blank" href="mailto:<?php echo cs_get_option('plus_left_emil'); ?>" class="but but-diy">邮箱联系</a>
+									<a target="_blank" href="https://wpa.qq.com/msgrd?v=3&uin=<?php echo cs_get_option('plus_left_qqText'); ?>&site=qq&menu=yes" class="but but-diy">在线沟通</a>
 								</div>
 							</div>
 						</article>
-						<article class="widget adv">
-							<img src="https://i.loli.net/2019/08/30/lSQEFbZMT7DYxAJ.jpg">
-						</article>
+						<?php if(cs_get_option('adv-single-left-1')): ?>
+							<article class="widget adv">
+								<?php echo cs_get_option('adv-single-left-1'); ?>
+							</article>
+						<?php endif; ?>
 						<article class="widget shadow">
 							<p>热门文章</p>
 							<ul class="blog-pucll-box show">
-								<li><a href="">一款骚气的WordPress主题！</a><p>3264阅读</p></li>
-								<li><a href="">一款骚气的WordPress主题！</a><p>3264阅读</p></li>
-								<li><a href="">一款骚气的WordPress主题！</a><p>3264阅读</p></li>
-								<li><a href="">一款骚气的WordPress主题！</a><p>3264阅读</p></li>
-								<li><a href="">一款骚气的WordPress主题！</a><p>3264阅读</p></li>
-								<li><a href="">一款骚气的WordPress主题！</a><p>3264阅读</p></li>
-								<li><a href="">一款骚气的WordPress主题！</a><p>3264阅读</p></li>
+							<?php 
+				                $sticky = get_option( 'sticky_posts' );
+				                $args = array(
+				                    "meta_key" => "post_views_count",
+									"orderby" => "meta_value_num",
+									"order" => "DESC",
+									"posts_per_page" => 7
+				                );
+				                $the_query = new WP_Query( $args ); ?>
+				                <?php while ( $the_query->have_posts() ) : $the_query->the_post(); ?>
+								<li><a href="<?php the_permalink() ?>"><?php the_title(); ?></a><p><?php post_views(); ?>阅读</p></li>
+								<?php endwhile;wp_reset_postdata(); ?>
+
 							</ul>
 						</article>
+						<?php if(cs_get_option('adv-single-left-2')): ?>
+							<article class="widget adv">
+								<?php echo cs_get_option('adv-single-left-2'); ?>
+							</article>
+						<?php endif; ?>
 					</div>
 				</div>
 			

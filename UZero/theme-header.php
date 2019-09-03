@@ -2,7 +2,7 @@
             	<div class="pc hidden-md hidden-sm hidden-xs">
                 	<!-- 每日一句骚话容器，删了就不够骚了！ -->
                     <p class="day-txt" id="day-txt"></p>
-					<a href="" class="but but-diy" id="login-but">立即登录</a>
+					<!-- <a href="" class="but but-diy" id="login-but">立即登录</a> -->
             	</div>
 				<div class="mobile hidden-lg">
 					 <a href="javascript:history.go(-1)"><i class="iconfont icon-Left"></i></a>

@@ -10,7 +10,7 @@ $settings           = array(
   'menu_slug'       => 'cs-framework',
   'ajax_save'       => true,
   'show_reset_all'  => false,
-  'framework_title' => '<a style="color:#fff;text-decoration: none;" href="https://www.ishanran.com/">UZero</a><small class="oldVer" data-vs="1.0.0 "style="color:#dc7575;margin-left:10px">Release 1.0.0</small>',
+  'framework_title' => '<a style="color:#fff;text-decoration: none;" href="http://www.htm.fun/">UZero</a><small class="oldVer" data-vs="1.0.0 "style="color:#dc7575;margin-left:10px">Release 1.0.0</small>',
 );
 
 // ===============================================================================================
@@ -34,7 +34,7 @@ $options[]      = array(
         'id'      => 'plus_name',
         'type'    => 'text',
         'title'   => '博客名字',
-        'desc'    => '请输入博客名字，将用于引导页显示',
+        'desc'    => '请输入博客名字',
         'default' => '',
     ),
     // 站名
@@ -42,17 +42,47 @@ $options[]      = array(
         'id'      => 'plus_description',
         'type'    => 'text',
         'title'   => '博客描述',
-        'desc'    => '请输入博客描述，将用于引导页显示',
+        'desc'    => '请一句话描述博客',
         'default' => '',
     ),
-  // 网站logo图片
+  // 站长简介背景图
     array(
-        'id'      => 'plus_header_logo',
+        'id'      => 'plus_blog_info_bgImg',
         'type'    => 'upload',
-        'title'   => '网站logo图片',
-        'desc'    => '请上传置高为50px宽度为不定的logo图片',
+        'title'   => '站长简介背景图',
+        'desc'    => '请上传大于380*200的图片',
         'default' => '',
     ),
+    // 建站时间
+    array(
+        'id'      => 'plus_date',
+        'type'    => 'text',
+        'title'   => '建站时间',
+        'desc'    => '设置建站时间，格式为：2008-8-18',
+        'default' => '2008-8-18',
+    ),
+  // 居住地
+    array(
+        'id'      => 'plus_from',
+        'type'    => 'text',
+        'title'   => '居住地址',
+        'desc'    => '请输入你想显示的居住地',
+        'default' => '中国',
+    ),
+    // 网站配色
+    array(
+      'id'         => 'plus_color',
+      'type'       => 'radio',
+      'title'      => '网站配色',
+      'options'    => array(
+        'no' => '默认模式',
+        'blue' => '蓝色模式',
+        'blueBlack' => '蓝黑模式',
+        'black' =>'暗黑模式'
+      ),
+      'default'    => 'no'
+    ),
+
   // 备案号
     array(
         'id'      => 'plus_footer_record',
@@ -234,7 +264,7 @@ $options[]      = array(
         array(
             'id'      => 'plus_left_qqImg',
             'type'    => 'upload',
-            'title'   => 'qq',
+            'title'   => 'qq二维码',
             'desc'    => '上传站长QQ添加好友二维码',
         ),
         // qq
@@ -258,222 +288,61 @@ $options[]      = array(
             'title'   => '微博',
             'desc'    => '请设置新浪微博地址，请带上http://',
         ),
+    // 邮箱地址
+    array(
+        'id'      => 'plus_left_emil',
+        'type'    => 'text',
+        'title'   => '邮箱',
+        'desc'    => '请输入你的邮箱',
+        'default' => '',
+    ),
+
+    // 邮箱地址
+    array(
+        'id'      => 'plus_left_qqText',
+        'type'    => 'text',
+        'title'   => 'QQ账号',
+        'desc'    => '请输入你的QQ号',
+        'default' => '',
+    ),
+
+
+  ));
+$options[]      = array(
+  'name'        => 'diycs1sjs',
+  'title'       => '广告',
+  'icon'        => 'fa fa-columns',
+  'fields'      => array(
+    array(
+      'id'    => 'adv-index-top',
+      'type'  => 'textarea',
+      'title' => '首页轮播图顶部广告，横通。',
+      'desc'    => '请设置自适应广告',
+    ),
+    array(
+      'id'    => 'adv-single-content-1',
+      'type'  => 'textarea',
+      'title' => '文章页评论框上，文章主体下广告位',
+      'desc'    => '请设置自适应广告',
+    ),
+
+    array(
+      'id'    => 'adv-single-left-1',
+      'type'  => 'textarea',
+      'title' => '文章页右侧广告1',
+      'desc'    => '请设置自适应广告',
+    ),
+    array(
+      'id'    => 'adv-single-left-2',
+      'type'  => 'textarea',
+      'title' => '文章页右侧广告2',
+      'desc'    => '请设置自适应广告',
+    ),
+
+
   ));
 
-$options[]      = array(
-  'name'        => 'aq',
-  'title'       => '安全',
-  'icon'        => 'fa fa-h-square',
-  'fields'      => array(
-    // 维护模式
-    array(
-        'id'    => 'plus_weihu',
-        'type'  => 'switcher',
-        'title' => '维护模式',
-    ),
-    // 标题
-    array(
-        'id'         => 'plus_maintenance_title',
-        'type'       => 'text',
-        'title'      => '标题',
-        'default'    => '维护中...',
-        'dependency' => array( 'plus_weihu', '==', 'true' ),
-    ),
-    // 内容
-    array(
-        'id'         => 'plus_maintenance_notice',
-        'type'       => 'text',
-        'title'      => '内容',
-        'default'    => '维护中...',
-        'dependency' => array( 'plus_weihu', '==', 'true' ),
-    ),
-    // 修改原始登录入口
-    array(
-        'id'    => 'plus_hide_login',
-        'type'  => 'switcher',
-        'title' => '修改原始登录入口',
-    ),
-    // 入口前缀
-    array(
-        'id'         => 'plus_login_prefix',
-        'type'       => 'text',
-        'title'      => '入口前缀',
-        'default'    => '123',
-        'dependency' => array( 'plus_hide_login', '==', 'true' ),
-    ),
-    // 入口后缀
-    array(
-        'id'         => 'plus_login_suffix',
-        'type'       => 'text',
-        'title'      => '入口后缀',
-        'default'    => 'abc',
-        'dependency' => array( 'plus_hide_login', '==', 'true' ),
-    ),
-    // 非法跳转地址
-    array(
-        'id'         => 'plus_login_link',
-        'type'       => 'text',
-        'title'      => '非法跳转地址',
-        'default'    => 'http://www.htm.fun/',
-        'dependency' => array( 'plus_hide_login', '==', 'true' ),
-    ),
-    // 过滤HTTP 1.0
-    array(
-        'id'    => 'plus_login_http',
-        'type'  => 'switcher',
-        'title' => '过滤HTTP 1.0',
-    ),
 
-));
-
-$options[]      = array(
-  'name'        => 'tuozhan',
-  'title'       => '拓展',
-  'icon'        => 'fa fa-eercast',
-  'fields'      => array(
-
-    // SMTP发邮件
-    array(
-        'id'    => 'plus_site_smtp',
-        'type'  => 'switcher',
-        'title' => 'SMTP发邮件',
-    ),
-    // 发件人名称
-    array(
-        'id'         => 'plus_smtp_name',
-        'type'       => 'text',
-        'title'      => '发件人名称',
-        'default'    => '',
-        'dependency' => array( 'plus_site_smtp', '==', 'true' ),
-    ),
-    // SMTP服务器地址
-    array(
-        'id'         => 'plus_smtp_server',
-        'type'       => 'text',
-        'title'      => 'SMTP服务器地址',
-        'default'    => '',
-        'dependency' => array( 'plus_site_smtp', '==', 'true' ),
-    ),
-    // SMTP服务器端口
-    array(
-        'id'         => 'plus_smtp_port',
-        'type'       => 'text',
-        'title'      => 'SMTP服务器端口',
-        'default'    => '',
-        'dependency' => array( 'plus_site_smtp', '==', 'true' ),
-    ),
-    // 邮箱账号
-    array(
-        'id'         => 'plus_smtp_email',
-        'type'       => 'text',
-        'title'      => '邮箱账号',
-        'default'    => '',
-        'dependency' => array( 'plus_site_smtp', '==', 'true' ),
-    ),
-    // 邮箱密码
-    array(
-        'id'         => 'plus_smtp_password',
-        'type'       => 'text',
-        'title'      => '邮箱密码',
-        'default'    => '',
-        'dependency' => array( 'plus_site_smtp', '==', 'true' ),
-    ),
-    // 百度主动推送
-    array(
-        'id'    => 'plus_baidu_submit',
-        'type'  => 'switcher',
-        'title' => '百度主动推送',
-    ),
-    // 百度站长平台认证域名
-    array(
-        'id'         => 'plus_baidu_link',
-        'type'       => 'text',
-        'title'      => '百度站长平台认证域名',
-        'default'    => '',
-        'dependency' => array( 'plus_baidu_submit', '==', 'true' ),
-    ),
-    // 推送秘钥
-    array(
-        'id'         => 'plus_baidu_key',
-        'type'       => 'text',
-        'title'      => '推送秘钥',
-        'default'    => '',
-        'dependency' => array( 'plus_baidu_submit', '==', 'true' ),
-    ),
-
-    // 熊掌号
-    array(
-        'id'    => 'xzh_on',
-        'type'  => 'switcher',
-        'title' => '百度熊掌号',
-    ),
-
-    // 推送密钥 Appid
-    array(
-        'id'         => 'xzh_appid',
-        'type'       => 'text',
-        'title'      => 'Appid',
-        'default'    => '',
-        'dependency' => array( 'xzh_on', '==', 'true' ),
-    ),
-    // 推送密钥 token
-    array(
-        'id'         => 'xzh_post_token',
-        'type'       => 'text',
-        'title'      => '推送密钥 token',
-        'default'    => '',
-        'dependency' => array( 'xzh_on', '==', 'true' ),
-    ),
-    // 粉丝关注
-    array(
-      'id'    => 'xzh_render_head',
-      'type'  => 'switcher',
-      'title' => '粉丝关注',
-      'dependency' => array( 'xzh_on', '==', 'true' ),
-    ),
-    // 文章段落间bar
-    array(
-      'id'    => 'xzh_render_body',
-      'type'  => 'switcher',
-      'title' => '文章段落间bar',
-      'dependency' => array( 'xzh_on', '==', 'true' ),
-    ),
-    // 底部bar
-    array(
-      'id'    => 'xzh_render_tail',
-      'type'  => 'switcher',
-      'title' => '底部bar',
-      'dependency' => array( 'xzh_on', '==', 'true' ),
-    ),
-    // 添加JSON_LD数据
-    array(
-      'id'    => 'xzh_jsonld_single',
-      'type'  => 'switcher',
-      'title' => '添加JSON_LD数据',
-      'dependency' => array( 'xzh_on', '==', 'true' ),
-    ),
-    // 页面
-    array(
-      'id'    => 'xzh_jsonld_page',
-      'type'  => 'switcher',
-      'title' => '页面',
-      'dependency' => array( 'xzh_on', '==', 'true' ),
-    ),
-    // 添加JSON_LD数据 - 不添加图片
-    array(
-      'id'    => 'xzh_jsonld_img',
-      'type'  => 'switcher',
-      'title' => '添加JSON_LD数据 - 不添加图片',
-      'dependency' => array( 'xzh_on', '==', 'true' ),
-    ),
-    // 新增文章实时推送
-    array(
-      'id'    => 'xzh_post_on',
-      'type'  => 'switcher',
-      'title' => '新增文章实时推送',
-      'dependency' => array( 'xzh_on', '==', 'true' ),
-    ),
-));
 
 $options[]      = array(
   'name'        => 'diycssjs',
@@ -495,6 +364,10 @@ $options[]      = array(
       'desc'    => '需要写script标签,位于页尾部分',
     ),
   ));
+
+
+
+
 
 $options[]   = array(
   'name'     => 'backup_section',

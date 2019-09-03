@@ -8,7 +8,7 @@ jQuery(document).ready(function($) {
 	// 图片懒加载注册
 	$("img.lazy").lazyload({
 		effect: "fadeIn",
-		 placeholder : "https://ftp.bmp.ovh/imgs/2019/08/2699faee29464b6a.gif",
+		 placeholder : "http://www.htm.fun/wp-content/uploads/2019/08/1567233598-2699faee29464b6a.gif",
 
 	});
 	// 图片灯箱注册
@@ -30,7 +30,8 @@ jQuery(document).ready(function($) {
 	}
 	$('.menu-icon').on('click',function(){
 		var menuTwo = $(this).prev();
-		menuTwo.slideToggle(300)
+		menuTwo.slideToggle(300);
+		$(this).toggleClass('open')
 	});
 
 	// 搜索框切换
@@ -52,7 +53,38 @@ jQuery(document).ready(function($) {
 					</div>';
 		ncPopup('small', html)
 	});
+    // 评论快速获取QQ信息
+    function isNumber(value) {
+        var patrn = /^(-)?\d+(\.\d+)?$/;
+        if (patrn.exec(value) == null || value == "") {
+            return false
+        } else {
+            return true
+        }
+    }
 
+    // 评论快速获取QQ信息
+    $("input#author").blur(function() {
+        var _author = $(this).val();
+        if (_author) {
+                $.getJSON(stayma_url.url_ajax + '?action=ajax_qq_info&qqNum=' + _author, function(xhr) {
+                    if (xhr[_author] == undefined) {
+                        console.log('你的QQ号不存在，请检查，如果不使用QQ号，建议使用中英文昵称。');
+                        $("input#author").focus();
+                    } else if (xhr[_author][6] == "") {
+                        console.log('你的QQ号可能是长期不登录或冻结状态？请检查。');
+                        $("input#author").focus();
+                    } else {
+                        $("input#author").val(xhr[_author][6]);
+                        $("input#email").val(_author + '@qq.com');
+                        $("input#url").val('https://user.qzone.qq.com/' + _author);
+                        $('#comment').focus();
+                        //console.log(xhr);
+                    }
+                });
+        }
+        return;
+    });
 	// 首页轮播图调用
 	  var mySwiper = new Swiper ('.swiper-container', {
 	    loop: true, // 循环模式选项
@@ -64,10 +96,11 @@ jQuery(document).ready(function($) {
 	  }) 
 
 	// 劫持所有链接，站内iframe打开
-	$('a[href!=""][target!="_blank"][rel!="nofollow"][data-fancybox !="gallery"]').on('click',function(){
+	$('a[href!=""][target!="_blank"][rel!="nofollow"][data-fancybox != "gallery"]').on('click',function(){
 		var href = $(this).attr('href');
 		if (href.indexOf('javascript')== 0) {return}
 		if ($(window).width()<=1200) {return}
+		if ($(this).hasClass('page-numbers')) {return}
 		$('iframe').remove()
 		$('#popIframe').append('<iframe frameborder="0" allowfullscreen="true" allowtransparency="true" src="'+href+'"></iframe>')
 		$('.popIframe').show();
@@ -141,12 +174,12 @@ jQuery(document).ready(function($) {
 								post = t.I('comment_post_ID').value,
 								parent = t.I('comment_parent').value;
 							if (parent != '0') {
-								jQuery('#respond').before('<ol class="children">' + data + '</ol>');
+								jQuery('.commentlist').appendTo(data);
 							} else if (!jQuery('.' + __list ).length) {
 								if (stayma_url.formpostion == 'bottom') {
-									jQuery('#respond').before('<ol class="' + __list + '">' + data + '</ol>');
+									jQuery('.commentlist').append(data);
 								} else {
-									jQuery('#respond').after('<ol class="' + __list + '">' + data + '</ol>');
+									jQuery('.commentlist').appendTo(data);
 								}
 
 							} else {
@@ -186,6 +219,40 @@ jQuery(document).ready(function($) {
 				};
 			});
     }
+
+    // ajax评论翻页
+    ajaxCommenPage()
+    function ajaxCommenPage(){
+	    $('#comments-navi a').on('click',function(){
+	    	var thisUrl = $(this).attr('href');
+	    	$.ajax({
+	    		url: thisUrl,
+	    		type: 'GET',
+	    		dataType: 'html',
+	    		beforeSend:function(){
+	    			$('.commentlist').fadeOut('300', function() {
+	    				$(this).remove()
+	    			});
+	    			$('#comments-navi').fadeOut('300', function() {
+	    				$(this).remove()
+	    			});
+
+	    		},
+	    		success:function(data){
+	    			var new_list = $(data).find('.commentlist'),
+	    				new_nav = $(data).find('#comments-navi'),
+	    				new_nav_a = new_nav.find('a');
+	    			$('#comments').append(new_list.fadeIn(300))
+					$('#comments').append(new_nav.fadeIn(300))
+	    			ajaxCommenPage()
+	    		},
+	    		error:function(){}
+	    	})
+	    	return false;
+	    })
+    }
+
+
 
 
 });

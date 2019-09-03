@@ -1,0 +1,21 @@
+/*左导航背景色*/
+.box-left{
+	background: #6852ED !important;
+}
+.box-left .contact{
+	border-top: 1px solid #7561ee !important
+}
+/*按钮颜色*/
+.but.but-diy,
+.link.iframe.btn{
+	background:#6852ED !important;
+	border: 0px;
+}
+#comments-navi .prev:hover,
+#comments-navi .next:hover,
+#comments-navi .current,
+.pages-nav .nav-links>.prev:hover,
+.pages-nav .nav-links>.next:hover,
+.pages-nav .nav-links>.current{
+	background:#6852ED !important;
+}
