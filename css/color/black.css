@@ -44,11 +44,12 @@ html,body{
 	background-color: #181C1E
 }
 /*首页文章列表颜色*/
+.index-list-top .list-top-body,
 .widget,
 .comment-box,
 .text-content,
 .list-content-body{
-	background: #1D1F20;
+	background: #1D1F20 !important;
 }
 .list-content-box{
 	box-shadow: 0 0 0;
