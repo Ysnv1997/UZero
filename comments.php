@@ -65,10 +65,6 @@
                 <span id="cancel-comment-reply" class="pull-left"><?php cancel_comment_reply_link('取消评论'); ?></span>
                 <input name="submit" type="submit" id="submit" class="link iframe btn btn-primary pull-right" value="提交评论"
                 />
-                <!-- <input type='hidden' name='comment_post_ID' value='136' id='comment_post_ID'
-                />
-                <input type='hidden' name='comment_parent' id='comment_parent' value='0'
-                /> -->
             </div>
         </form>
         </div>

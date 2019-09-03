@@ -112,7 +112,7 @@ function ajax_comment_callback(){
             </div>
         </div>
     </div>
-
+</article>
 
 
 

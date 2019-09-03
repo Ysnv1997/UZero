@@ -173,22 +173,8 @@ jQuery(document).ready(function($) {
 								respond = t.I(t.respondId),
 								post = t.I('comment_post_ID').value,
 								parent = t.I('comment_parent').value;
-							if (parent != '0') {
-								jQuery('.commentlist').appendTo(data);
-							} else if (!jQuery('.' + __list ).length) {
-								if (stayma_url.formpostion == 'bottom') {
-									jQuery('.commentlist').append(data);
-								} else {
-									jQuery('.commentlist').appendTo(data);
-								}
-
-							} else {
-								if (ajaxcomment.order == 'asc') {
-									jQuery('.' + __list ).append(data); // your comments wrapper
-								} else {
-									jQuery('.' + __list ).prepend(data); // your comments wrapper
-								}
-							}
+								console.log(data)
+								$('.commentlist').append(data)
 							t.createButterbar("提交成功");
 							cancel.style.display = 'none';
 							cancel.onclick = null;

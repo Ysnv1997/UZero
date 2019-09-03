@@ -50,10 +50,6 @@
                             </div>
                         </article>
                     <?php endwhile;endif;?>
-
-
-
-
                 </div>
                 <!-- 列表结束 -->
                 <div class="pages-nav">
