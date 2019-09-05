@@ -67,3 +67,38 @@ switch (cs_get_option('plus_color')) {
         )
     );
 }
+
+//删除仪表盘模块  
+function example_remove_dashboard_widgets() {  
+    // Globalize the metaboxes array, this holds all the widgets for wp-admin  
+    global $wp_meta_boxes;  
+    // 以下这一行代码将删除 "快速发布" 模块  
+    unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_quick_press']);  
+    // 以下这一行代码将删除 "引入链接" 模块  
+    unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_incoming_links']);  
+    // 以下这一行代码将删除 "插件" 模块  
+    unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_plugins']);  
+    // 以下这一行代码将删除 "近期评论" 模块  
+    unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_recent_comments']);  
+    // 以下这一行代码将删除 "近期草稿" 模块  
+    unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_recent_drafts']);  
+    // 以下这一行代码将删除 "WordPress 开发日志" 模块  
+    unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_primary']);  
+    // 以下这一行代码将删除 "其它 WordPress 新闻" 模块  
+    unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_secondary']);  
+    // 以下这一行代码将删除 "概况" 模块  
+    unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_right_now']);  
+}  
+add_action('wp_dashboard_setup', 'example_remove_dashboard_widgets' );  
+// 以下这一行代码将删除 "welcome" 模块  
+remove_action('welcome_panel', 'wp_welcome_panel');  
+
+
+    function custom_dashboard_help() {
+    echo '<h3 style="color:red">感谢你使用UZero主题，如果你觉得UZero主题让你感到身心愉悦，那么请打赏一下UZero主题吧！</h3><p style="text-align: center;"><img src="https://i.loli.net/2019/09/05/TJk1l35RNYjiDtF.png" alt=""></p><p>如果你在使用过程中遇到任何困难或者问题，请加入官方QQ群:<a href="https://jq.qq.com/?_wv=1027&amp;k=5NIqiSH" title="729193505" target="_blank" rel="nofollow" style="color:blue;text-decoration: none;">729193505</a>寻求帮助！</p>';
+    }
+    function example_add_dashboard_widgets() {
+        wp_add_dashboard_widget('custom_help_widget', '赞助UZero主题', 'custom_dashboard_help');
+    }
+    add_action('wp_dashboard_setup', 'example_add_dashboard_widgets' );
+

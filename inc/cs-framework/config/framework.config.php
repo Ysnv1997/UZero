@@ -10,7 +10,8 @@ $settings           = array(
   'menu_slug'       => 'cs-framework',
   'ajax_save'       => true,
   'show_reset_all'  => false,
-  'framework_title' => '<a style="color:#fff;text-decoration: none;" href="http://www.htm.fun/">UZero</a><small class="oldVer" data-vs="1.0.0 "style="color:#dc7575;margin-left:10px">Release 1.0.0</small>',
+  'async_webfont'   => true,
+  'framework_title' => '<a style="color:#fff;text-decoration: none;" href="http://www.htm.fun/">UZero</a><small class="oldVer" data-vs="1.1.0 "style="color:#dc7575;margin-left:10px">Release 1.1.0</small> 问题反馈请加官方QQ群<a href="https://jq.qq.com/?_wv=1027&amp;k=5NIqiSH" title="729193505" target="_blank" rel="nofollow" style="color:#fff;text-decoration: none;">729193505</a>',
 );
 
 // ===============================================================================================
@@ -146,28 +147,28 @@ $options[]      = array(
           'class'   => 'info',
           'content' => '网站功能',
       ),
-            // 附件自动重命名
-            array(
-              'id'    => 'plus_open_iframe',
-              'type'  => 'switcher',
-              'title' => '附件自动重命名',
+        // 开启iframe跳转
+        array(
+          'id'    => 'plus_open_iframe',
+          'type'  => 'switcher',
+          'title' => '开启iframe跳转',
+        ),
+        // 附件自动重命名
+        array(
+            'id'    => 'plus_upload_filter',
+            'type'  => 'switcher',
+            'title' => '附件自动重命名',
+        ),
+        array(
+            'id'         => 'gravatar_url',
+            'type'       => 'radio',
+            'title'      => 'gravatar头像优化',
+            'options'    => array(
+              'no'      => '官方原有',
+              'ssl' => '从Gravatar官方ssl获取',
+              'duoshuo'     => '中国服务器',
             ),
-            // 附件自动重命名
-            array(
-                'id'    => 'plus_upload_filter',
-                'type'  => 'switcher',
-                'title' => '附件自动重命名',
-            ),
-            array(
-                'id'         => 'gravatar_url',
-                'type'       => 'radio',
-                'title'      => 'gravatar头像优化',
-                'options'    => array(
-                  'no'      => '官方原有',
-                  'ssl' => '从Gravatar官方ssl获取',
-                  'duoshuo'     => '中国服务器',
-                ),
-              ),
+          ),
 
 
   ),

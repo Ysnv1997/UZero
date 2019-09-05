@@ -26,9 +26,14 @@
         </a>
     </div>
     <?php wp_footer();?>
+    <script>
+    // 图片懒加载注册
+    $("img.lazy").lazyload({
+        effect: "fadeIn",
+         placeholder : '<?php echo esc_url( get_template_directory_uri() ); ?>/images/loading.gif',
+    });
+    </script>
     <script><?php echo cs_get_option('plus_diy_js');?></script>
-        
-    
 </body>
 
 </html>

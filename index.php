@@ -87,7 +87,7 @@
                         <article class="col-md-6 col-lg-3">
                             <div class="list-content-box">
                                 <div class="list-content-img">
-                                    <a href="<?php the_permalink(); ?>"><img class="lazy" data-original="<?php echo post_thumbnail_src(); ?>" data-loading="<?php bloginfo ('template_url'); ?>/images/loading.gif"><div class="overlay"><i class="czs-paper-plane-l"></i></div></a>
+                                    <a href="<?php the_permalink(); ?>"><img class="lazy" data-original="<?php echo post_thumbnail_src(); ?>"><div class="overlay"><i class="czs-paper-plane-l"></i></div></a>
 
                                 </div>
                                 <div class="list-content-body">

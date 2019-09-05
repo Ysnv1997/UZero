@@ -5,12 +5,6 @@ jQuery(document).ready(function($) {
 		body.toggleClass('left-close');
 		return false;
 	});
-	// 图片懒加载注册
-	$("img.lazy").lazyload({
-		effect: "fadeIn",
-		 placeholder : "http://www.htm.fun/wp-content/uploads/2019/08/1567233598-2699faee29464b6a.gif",
-
-	});
 	// 图片灯箱注册
 	$('[data-fancybox="gallery"]').fancybox({
 		protect: true,
