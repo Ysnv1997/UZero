@@ -84,7 +84,7 @@
 
                     $the_query2 = new WP_Query( $args2 ); ?>
                     <?php if($the_query2->have_posts()): while($the_query2->have_posts()): $the_query2->the_post(); ?>
-                        <article class="col-md-6 col-lg-3"">
+                        <article class="col-md-6 col-lg-3">
                             <div class="list-content-box">
                                 <div class="list-content-img">
                                     <a href="<?php the_permalink(); ?>"><img class="lazy" data-original="<?php echo post_thumbnail_src(); ?>" data-loading="<?php bloginfo ('template_url'); ?>/images/loading.gif"><div class="overlay"><i class="czs-paper-plane-l"></i></div></a>
