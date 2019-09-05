@@ -26,7 +26,7 @@ jQuery(document).ready(function($) {
 	});
 	// 二级导航栏切换
 	if($('.navtager ul>li:has(ul)')){
-		$('.navtager ul>li:has(ul)').append('<span class="menu-icon"><i class="iconfont icon-xia"></i></span>')
+		$('.navtager ul>li:has(ul)').append('<span class="menu-icon"><i class="czs-angle-down-l"></i></span>')
 	}
 	$('.menu-icon').on('click',function(){
 		var menuTwo = $(this).prev();
@@ -38,7 +38,7 @@ jQuery(document).ready(function($) {
 	$('.popup-close-btn').on('click',function(){
 		$('.site-search-popup.show-popup').toggleClass('show-popup-close')
 	})
-	$('.icon-search').on('click',function(){
+	$('#searchBut').on('click',function(){
 		$('.site-search-popup.show-popup').toggleClass('show-popup-close')
 	})
 	// 提示框调用
@@ -88,39 +88,13 @@ jQuery(document).ready(function($) {
 	// 首页轮播图调用
 	  var mySwiper = new Swiper ('.swiper-container', {
 	    loop: true, // 循环模式选项
-	    
+	    autoplay:true,
 	    // 如果需要分页器
 	    pagination: {
-	      el: '.swiper-pagination',
+		  el: '.swiper-pagination',
+		  clickable :true,
 	    },
 	  }) 
-
-	// 劫持所有链接，站内iframe打开
-	$('a[href!=""][target!="_blank"][rel!="nofollow"][data-fancybox != "gallery"]').on('click',function(){
-		var href = $(this).attr('href');
-		if (href.indexOf('javascript')== 0) {return}
-		if ($(window).width()<=1200) {return}
-		if ($(this).hasClass('page-numbers')) {return}
-		$('iframe').remove()
-		$('#popIframe').append('<iframe frameborder="0" allowfullscreen="true" allowtransparency="true" src="'+href+'"></iframe>')
-		$('.popIframe').show();
-		$('.left-state-button').hide();
-		return false;
-	})
-	// a跳转弹窗关闭
-	$('#closemask').on('click',function(){
-		$('#popIframe').hide()
-		$('.left-state-button').show()
-		$('iframe').remove()
-		return false;
-	})
-	try{
-
-		if(self != top){
-			$('body').addClass('isIframe')
-		}
-
-	} catch(err){}
 	// 首页每日一句骚话---探探api
 	// 感谢@淮城一只猫 提供骚话api
 	function oneDayTTtxt(date){

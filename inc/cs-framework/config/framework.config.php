@@ -45,6 +45,16 @@ $options[]      = array(
         'desc'    => '请一句话描述博客',
         'default' => '',
     ),
+  // LOGO
+  array(
+    'id'      => 'plus_blog_logo',
+    'type'    => 'upload',
+    'title'   => '请上传logo',
+    'desc'    => '请上传背景透明的logo，大小自己调',
+    'default' => '',
+),
+
+
   // 站长简介背景图
     array(
         'id'      => 'plus_blog_info_bgImg',
@@ -53,6 +63,18 @@ $options[]      = array(
         'desc'    => '请上传大于380*200的图片',
         'default' => '',
     ),
+
+
+  // 公告
+
+  array(
+    'id'    => 'plus_right_notice',
+    'type'  => 'textarea',
+    'title' => '右侧顶部公告',
+    'desc'    => '网站右侧顶部公告，支持HTML。如果为空，则显示每日骚话一句',
+  ),
+
+
     // 建站时间
     array(
         'id'      => 'plus_date',
@@ -91,7 +113,7 @@ $options[]      = array(
         'desc'    => '请设置备案号，无则留空',
         'default' => '',
     ),
-
+    // 轮播图
     array(
       'id'        => 'index-loop',
       'type'      => 'group',
@@ -124,7 +146,12 @@ $options[]      = array(
           'class'   => 'info',
           'content' => '网站功能',
       ),
-
+            // 附件自动重命名
+            array(
+              'id'    => 'plus_open_iframe',
+              'type'  => 'switcher',
+              'title' => '附件自动重命名',
+            ),
             // 附件自动重命名
             array(
                 'id'    => 'plus_upload_filter',
@@ -145,6 +172,85 @@ $options[]      = array(
 
   ),
 );
+
+$options[]      = array(
+  'name'        => 'tuozhan',
+  'title'       => '拓展',
+  'icon'        => 'fa fa-eercast',
+  'fields'      => array(
+    // SMTP发邮件
+    array(
+        'id'    => 'plus_site_smtp',
+        'type'  => 'switcher',
+        'title' => 'SMTP发邮件',
+    ),
+    // 发件人名称
+    array(
+        'id'         => 'plus_smtp_name',
+        'type'       => 'text',
+        'title'      => '发件人名称',
+        'default'    => '',
+        'dependency' => array( 'plus_site_smtp', '==', 'true' ),
+    ),
+    // SMTP服务器地址
+    array(
+        'id'         => 'plus_smtp_server',
+        'type'       => 'text',
+        'title'      => 'SMTP服务器地址',
+        'default'    => '',
+        'dependency' => array( 'plus_site_smtp', '==', 'true' ),
+    ),
+    // SMTP服务器端口
+    array(
+        'id'         => 'plus_smtp_port',
+        'type'       => 'text',
+        'title'      => 'SMTP服务器端口',
+        'default'    => '',
+        'dependency' => array( 'plus_site_smtp', '==', 'true' ),
+    ),
+    // 邮箱账号
+    array(
+        'id'         => 'plus_smtp_email',
+        'type'       => 'text',
+        'title'      => '邮箱账号',
+        'default'    => '',
+        'dependency' => array( 'plus_site_smtp', '==', 'true' ),
+    ),
+    // 邮箱密码
+    array(
+        'id'         => 'plus_smtp_password',
+        'type'       => 'text',
+        'title'      => '邮箱密码',
+        'default'    => '',
+        'dependency' => array( 'plus_site_smtp', '==', 'true' ),
+    ),
+    // 百度主动推送
+    array(
+        'id'    => 'plus_baidu_submit',
+        'type'  => 'switcher',
+        'title' => '百度主动推送',
+    ),
+    // 百度站长平台认证域名
+    array(
+        'id'         => 'plus_baidu_link',
+        'type'       => 'text',
+        'title'      => '百度站长平台认证域名',
+        'default'    => '',
+        'dependency' => array( 'plus_baidu_submit', '==', 'true' ),
+    ),
+    // 推送秘钥
+    array(
+        'id'         => 'plus_baidu_key',
+        'type'       => 'text',
+        'title'      => '推送秘钥',
+        'default'    => '',
+        'dependency' => array( 'plus_baidu_submit', '==', 'true' ),
+    ),
+));
+
+
+
+
 
 $options[]      = array(
   'name'        => 'seo',
@@ -361,7 +467,7 @@ $options[]      = array(
       'id'    => 'plus_diy_js',
       'type'  => 'textarea',
       'title' => '自定义js样式',
-      'desc'    => '需要写script标签,位于页尾部分',
+      'desc'    => '不需要script标签,位于页尾部分',
     ),
   ));
 

@@ -1,7 +1,7 @@
 <?php get_header();?>
     <!-- 右内容box -->
     <div class="box-right">
-        <!-- 引导页信息 -->
+        <!-- 引导页信息 暂时隐藏-->
         <div class="right-index">
             <div class="right-index-logo container">
                 <a href=""><i class="iconfont icon-shan"></i></a>
@@ -36,7 +36,6 @@
                 </div>
             <?php endif; ?>
             <div class="content-box">
-                <h4>首页</h4>
                 <!-- 轮播图 -->
                 <?php if(cs_get_option('index-loop')): ?>
                 <div class="swiper-container">
@@ -88,7 +87,7 @@
                         <article class="col-md-6 col-lg-3"">
                             <div class="list-content-box">
                                 <div class="list-content-img">
-                                    <a href="<?php the_permalink(); ?>"><img class="lazy" data-original="<?php echo post_thumbnail_src(); ?>" data-loading="<?php bloginfo ('template_url'); ?>/images/loading.gif"><div class="overlay"><i class="iconfont icon-fangda"></i></div></a>
+                                    <a href="<?php the_permalink(); ?>"><img class="lazy" data-original="<?php echo post_thumbnail_src(); ?>" data-loading="<?php bloginfo ('template_url'); ?>/images/loading.gif"><div class="overlay"><i class="czs-paper-plane-l"></i></div></a>
 
                                 </div>
                                 <div class="list-content-body">

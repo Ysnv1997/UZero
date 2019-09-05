@@ -20,7 +20,8 @@ Zero是‘零’。
 - [x] 图片灯箱
 - [x] 代码高亮 [请配合[WP Githuber MD](https://github.com/terrylinooo/githuber-md "WP Githuber MD")使用，程序员怎么能不会MD呢？]
 - [x] 内部链接iframe打开[增强体验感]
-- [ ] 友情链接页面
+- [x] 完整的SEO设置
+- [x] 友情链接页面
 - [ ] 文章归档页面
 - [ ] 全站pjax[可选，看需求量]
 - [ ] 前台登录[or用户中心，但是感觉用户中心没卵用]
@@ -38,10 +39,17 @@ https://github.com/Ysnv1997/UZero/releases/tag/UZero
 啊哈~我都失业！你忍心吗？啊？你忍心如此英俊潇洒玉树临风的我受冻挨饿？打赏我把！金额随意！
 
 | 微信 | 支付宝  |
-| ------------ | ------------ |
+| :------------: | :------------: |
 |  ![](http://www.htm.fun/wp-content/uploads/2019/08/1566632180-%E5%BE%AE%E4%BF%A1.png) |  ![](http://www.htm.fun/wp-content/uploads/2019/08/1566632181-%E6%94%AF%E4%BB%98%E5%AE%9D.png) |
 
+### 捐赠列表
+
+| 时间  | 捐助者  | 金额  |
+| :------------:  | :------------:  | :------------:  |
+| 2019-9-3  | 今天出了索米也出了芙兰卡  | 5.00￥  |
+
 ## 主题展示
+
 在线展示：本站
 
 ![](http://www.htm.fun/wp-content/uploads/2019/09/2019090306373895.jpg?imageView2/1/w/1024/h/683/interlace/1/q/75#)
@@ -51,5 +59,20 @@ https://github.com/Ysnv1997/UZero/releases/tag/UZero
 ![](http://www.htm.fun/wp-content/uploads/2019/09/2019090306373668.jpg?imageView2/1/w/1024/h/683/interlace/1/q/75#)
 ![](http://www.htm.fun/wp-content/uploads/2019/09/2019090306431893.jpg?imageView2/1/w/1024/h/683/interlace/1/q/75#)
 ### 更新日志
+[2019年9月5日] :
+- 新增回复可见
+- 新增公告栏
+- 新增百度自动提交
+- 新增SMTP发邮件
+- 新增评论邮件通知
+- 新增图片logo
+- 新增友情链接页面
+- 新增iframe跳转开关
+- 修复轮播图不能自动切换
+- 修复轮播图分页不能点击
+- 修复自定义js代码无法添加script标签
+- 修复文章页右侧个人资料
+- 修复二级回复业务逻辑错误
+- 优化页面布局
 [2019年9月3日] :
 发布UZero1.0版本

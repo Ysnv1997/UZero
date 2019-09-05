@@ -7,12 +7,12 @@
 		<?php include_once 'theme-header.php'; ?>
             <div class="content-box">
 				<div class="single-content-box row">
-					<div class="col-md-9 col-sm-8">
+					<div class="col-lg-9">
 						<?php if( have_posts() ){ the_post();?>
 						<div class="text-content shadow">
 							<article class="text-header">
 								<h3><?php the_title(); ?></h3>
-								<P class='single-info'><i class="iconfont icon-Clown"></i><?php the_author(); ?> · <?php the_time('Y'); ?>年 · <i class="iconfont icon-linedesign-14"></i><?php post_views(); ?> 次阅读</P>
+								<P class='single-info'><i class="czs-vimeo"></i><?php the_author(); ?> · <?php the_time('Y'); ?>年 · <i class="czs-eye-l"></i><?php post_views(); ?> 次阅读</P>
 								<div class="tags-list">
 									<?php the_category(' '); ?>
 								</div>
@@ -22,8 +22,6 @@
 							</div>
 						</div>
 						<?php } ?>
-
-
 						<?php if(cs_get_option('adv-single-content-1')): ?>
 							<article class="adv shadow" style="margin-top: 30px;">
 								<?php echo cs_get_option('adv-single-content-1'); ?>
@@ -38,12 +36,12 @@
 
 
 					</div>
-					<div class="col-md-3 col-sm-4">
+					<div class="col-lg-3">
 						<article class="widget blog-info shadow">
 							<div class="blog-info-header" style="background-image: url(<?php echo cs_get_option('plus_blog_info_bgImg') ?>);">
 								<span class="blog-info-name">
-									<h4>山然博客</h4>
-									<span>@ShanRan</span>
+									<h4><?php bloginfo('name')?></h4>
+									<span>@<?php the_author(); ?></span>
 								</span>
 								<img class="blog-info-img" src="<?php echo get_avatar_url(get_the_author_meta('email')); ?>">
 								
@@ -55,13 +53,15 @@
 								<div class="blog-pucll-butt row">
 									<div class="blog-pucll-butt-on col-xs-4 artlist">
 										<span>
-											<i class="iconfont icon-bi"></i>文章
+											<i class="czs-cup-l"></i>文章
 										</span>
 										<p><?php echo wp_count_posts()->publish; ?></p>
 									</div>
 									<div class="blog-pucll-butt-on link col-xs-4">
-										<span>友人</span>
-										<p><?php $link = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->links WHERE link_visible = 'Y'"); echo $link; ?></p>
+										<a href="/links" target="_blank">
+											<span>友人</span>
+											<p><?php $link = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->links WHERE link_visible = 'Y'"); echo $link; ?></p>
+										</a>
 									</div>
 									<div class="blog-pucll-butt-on col-xs-4">
 										<span>评论</span>
@@ -85,10 +85,10 @@
 								</div>
 								<div class="blog-list-info">
 									<ul>
-										<li><i class="iconfont icon-dingwei"></i> <?php echo cs_get_option('plus_from'); ?></li>
-										<li><i class="iconfont icon-linedesign-14"></i> <?php echo all_view(); ?>次访问</li>
-										<li><i class="iconfont icon-shijian"></i> 建站<?php echo floor((time()-strtotime(cs_get_option('plus_date')))/86400); ?>天</li>
-										<li><i class="iconfont icon-Mac"></i> <?php last_login(); ?></li>
+										<li><i class="czs-location"></i> <?php echo cs_get_option('plus_from'); ?></li>
+										<li><i class="czs-eye-l"></i> <?php echo all_view(); ?>次访问</li>
+										<li><i class="czs-time-l"></i> 建站<?php echo floor((time()-strtotime(cs_get_option('plus_date')))/86400); ?>天</li>
+										<li><i class="czs-computer-l"></i> <?php last_login(); ?></li>
 									</ul>
 								</div>
 								<div class="blog-info-button">

@@ -90,3 +90,7 @@ html,body{
 .comments-title{
 	color: #ccc
 }
+#respond form .row input{
+	background-color: #2f3233;
+	border: 1px solid #1d1f20;
+}
