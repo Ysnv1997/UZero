@@ -33,7 +33,18 @@ jQuery(document).ready(function($) {
 		menuTwo.slideToggle(300);
 		$(this).toggleClass('open')
 	});
-
+	// 返回顶部
+	$(window).scroll(function(event) {
+		var top = $(document).scrollTop()
+			if (top>800) {
+				$('.go-to-top').addClass('show')
+			}else{
+				$('.go-to-top').removeClass('show')
+			}
+	});
+	$('.go-to-top').on('click',function(){
+		$("html,body").animate({scrollTop:0},"fast");
+	})
 	// 搜索框切换
 	$('.popup-close-btn').on('click',function(){
 		$('.site-search-popup.show-popup').toggleClass('show-popup-close')
@@ -62,7 +73,7 @@ jQuery(document).ready(function($) {
             return true
         }
     }
-
+	
     // 评论快速获取QQ信息
     $("input#author").blur(function() {
         var _author = $(this).val();

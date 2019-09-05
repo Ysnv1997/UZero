@@ -68,6 +68,8 @@ https://github.com/Ysnv1997/UZero/releases/tag/UZero
 - 新增图片logo
 - 新增友情链接页面
 - 新增iframe跳转开关
+- 新增返回顶部按钮
+- 新增接入草莓图标库
 - 修复轮播图不能自动切换
 - 修复轮播图分页不能点击
 - 修复自定义js代码无法添加script标签

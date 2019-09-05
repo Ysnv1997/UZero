@@ -2115,7 +2115,17 @@ div.tips p {
     color: #fff;
     font-size: .875rem;
 }
-
+.go-to-top{
+    position: fixed;
+    right: 35px;
+    bottom: 35px;
+    color: #000;
+    font-size: 30px;
+    display: none;
+}
+.go-to-top.show{
+    display: block;
+}
 /* 友情链接页面 */
 .links{
     margin-top: 35px;
